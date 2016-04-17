@@ -1,0 +1,17 @@
+{
+  "name": "Issue Tracked System",
+  "description": "Stoyan's project in SoftUni.bg",
+  "version": "0.0.0",
+  "homepage": "https://github.com/StoyanMStoyanov/IssueTrascingSystem.git",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    "html5-boilerplate": "~5.2.0",
+    "bootstrap": "^3.3.6",
+    "angular-cookies": "^1.5.3"
+  }
+}

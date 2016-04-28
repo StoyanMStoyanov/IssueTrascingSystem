@@ -1,7 +1,7 @@
 /**
  * Created by stoyan.stoyanov on 4/17/2016.
  */
-angular.module('issueTrackerSystem.users', [
+angular.module('issueTrackerSystem.users.userController', [
         'issueTrackerSystem.users.authentication'
     ])
     .config(['$routeProvider', function($routeProvider){
@@ -28,16 +28,22 @@ angular.module('issueTrackerSystem.users', [
             $scope.login = function (user) {
                 authentication.loginUser(user)
                     .then(function (loggedUser) {
-                        console.log(loggedUser);
+                        //console.log(loggedUser);
                         $location.path('/dashboard');
                     });
             };
 
             $scope.register = function (user) {
+                debugger;
                 authentication.registerUser(user)
                     .then(function (registeredUser) {
                         console.log(registeredUser);
-                        $location.path('/dashboard');
+                        var loginUser = {
+                            username: registeredUser.config.email,
+                            password: registeredUser.config.password
+                        };
+                        debugger;
+                        authentication.loginUser(loginUser);
                     });
             };
         }]);

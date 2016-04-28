@@ -1,40 +1,69 @@
 /**
  * Created by stoyan.stoyanov on 4/13/2016.
  */
-angular.module('mySocialNetwork.users.identity',[])
+angular.module('issueTrackerSystem.users.identity',[])
     .factory('identity', [
         '$http',
         '$q',
         'BASE_URL',
         function($http, $q, BASE_URL){
 
-            var deffered = $q.defer();
+            var differed = $q.defer();
+
+            /*
+             Когато искаме да позваме администраторски акаунт обикновенно getUserProfile ще ни върне
+             освен всичкиостанали данни за user-a и неговите роли.
+             var userData = {
+             firstName: '......',
+             lastName: '.......',
+             ......
+             roles: ['Admin', 'Support']
+             }
+             след това трябва да направим още една проверка както authenticated примерно
+             това се случва в контролера след authenticated
+             adminCheck: [function(authentication, identity){ - получаваме някакви данни
+             if(authentication.isAuthenticated()){
+             identity.getUserProfile(); - след като вземем данните на user-a
+             return $q.when(true);
+             правим проверка и ако си admin прави нещо
+             ако не си админ ще върнем 'Unauthorized Access'
+             return $q.reject('Unauthorized Access');
+             и след това да редиректнем към home или някъде другаде
+             }
+             }]
+             */
 
             var currentUser = undefined;
-
-            var accessToken = 'G234NGCp-z9J1GsjKmfurHYnHYHjg7lQaTonxvJsWmX3qQgpF7Hz3OO9749YVuuE7df_5f75T7pOu0IxQtOW5eq7h17kq4N_SJmuaJnyyR5vqEPUSBONvA2t5hFs5aMPJA_wTnaqvg1VUWycZCIwIZ6w9AMde7sbYtZ1iCbE_PM-TuR5JETKa50AqWSiGboZJi-OXsI5nz4bv74LzDIwdsfscrinUgGc9sO3ScNgQfw0DAXkz6-CjRaHS1NL0NPRKY7c4mPWb6eFofIEDx3hxhdFPsdzKMK7QWQxpfN_ol4g86EZpsm-ft4rVyeWuqS-9LdNR-lUhsKqLMF2I4fDKl4f55bV0wPsG4NJZuqxEEW7ODG9QsURomcVG9xRntKz7v-lN7VL0RkT0Qqs_YmRjyv_iifqz8QVSpUyrALPeR56frbwTft8BXxaEZuR-rZg7AxthmPjUu1trMI5AXmRP8OLjjflS0tOyYU9VLcjry-9vpIA9bjmJcl8APmQKh6-","token_type":"bearer","expires_in":1209599,"userName":"sani@sani.bg",".issued":"Sun, 17 Apr 2016 11:51:27 GMT",".expires":"Sun, 01 May 2016 11:51:27 GMT';
-
-            $http.defaults.headers.common.Authorization = 'Bearer ' + accessToken;
-
-            $http.get(BASE_URL + 'user/me')
-                .then(function (responce) {
-                    console.log(responce.data);
-                    currentUser = responce.data;
-                    deffered.resolve(currentUser);
-            });
 
 
             return{
                 getCurrentUser: function () {
+
                     if(currentUser){
                         return $q.when(currentUser);
                     } else {
-                        return deffered.promise;
+                        return differed.promise;
                     }
                 },
 
-                isAuthenticated: function () {
-                    return true;
+                removeUserProfile: function () {
+                    currentUser = undefined;
+                },
+
+                requestUserProfile: function () {
+                    //Този deffer връща профила на user-a
+                    var userProfileDeffered = $q.defer();
+                    $http.get(BASE_URL + 'Users/me')
+                        .then(function (responce) {
+                            currentUser = responce.data;
+                            differed.resolve(currentUser);
+                            userProfileDeffered.resolve();
+                            console.log(currentUser);
+                        });
+
+                    return userProfileDeffered.promise;
                 }
+
+
             };
-    }]);
+        }]);

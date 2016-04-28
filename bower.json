@@ -1,5 +1,5 @@
 {
-  "name": "Issue Tracked System",
+  "name": "Issue Tracking System",
   "description": "Stoyan's project in SoftUni.bg",
   "version": "0.0.0",
   "homepage": "https://github.com/StoyanMStoyanov/IssueTrascingSystem.git",
@@ -11,7 +11,9 @@
     "angular-loader": "~1.4.0",
     "angular-mocks": "~1.4.0",
     "html5-boilerplate": "~5.2.0",
-    "bootstrap": "^3.3.6",
-    "angular-cookies": "^1.5.3"
+    "jquery": "^2.2.3",
+    "angular-cookies": "^1.5.5",
+    "toastr": "^2.1.2",
+    "jquery-ui": "^1.11.4"
   }
 }

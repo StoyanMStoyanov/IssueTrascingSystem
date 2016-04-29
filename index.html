@@ -15,7 +15,7 @@
     <script src="app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 
 </head>
-<body ng-controller="MainController">
+<body ng-controller="HomeController">
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -27,7 +27,7 @@
             </button>
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
-            <ul ng-if="isAuthenicated" class="nav navbar-nav">
+            <ul ng-if="isAuthenticated" class="nav navbar-nav">
                 <li>
                     <a href="#/home">Home</a>
                 </li>
@@ -66,7 +66,7 @@
     =================================== -->
 <script src="app/users/userController.js"></script>
 <script src="app/home/homeController.js"></script>
-<script src="app/home/mainController.js"></script>
+<script src="app/dashboard/dashboardController.js"></script>
 
 <!-- Services
     =================================== -->

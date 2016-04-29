@@ -30,7 +30,7 @@ angular.module('issueTrackerSystem.users.userController', [
                 authentication.loginUser(user)
                     .then(function (loggedUser) {
                         //console.log(loggedUser);
-                        $location.path('/register');
+                        $location.path('/dashboard');
                         //$location.path('/dashboard');
                     });
             };

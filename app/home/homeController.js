@@ -3,9 +3,7 @@
  */
 
 'use strict';
-angular.module('issueTrascingSystem.home.HomeController', [
-
-    ])
+angular.module('issueTrackerSystem.home.HomeController', [])
     .config(['$routeProvider',
         function ($routeProvider) {
             $routeProvider.when('/', {
@@ -16,24 +14,17 @@ angular.module('issueTrascingSystem.home.HomeController', [
     ])
     .controller('HomeController', [
         '$scope',
-        function ($scope) {
-
-            $scope.loginUser = function (){
-                console.log('loginUser');
-            };
-
-            $scope.registerUser = function () {
-                console.log('registerUser');
-            };
-
-            if(authentication.isAuthenicated()){
+        'authentication',
+        'identity',
+        function ($scope, authentication, identity) {
+            if(authentication.isAuthenticated()){
                 identity.getCurrentUser()
                     .then(function (user) {
                         $scope.currentUser = user;
-                        //Това е за менто горе
-                        $scope.isAuthenicated = true;
+                        $scope.isAuthenticated = true;
+                        console.log('Authenticated ' + user);
                     });
             }
-        }
 
+        }
     ]);

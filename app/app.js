@@ -8,6 +8,8 @@ angular.module('issueTrackerSystem', [
     'ngRoute',
     'ngCookies',
     'issueTrackerSystem.users.userController',
+    'issueTrascingSystem.home.HomeController',
+    'issueTrascingSystem.home.MainController',
     'issueTrackerSystem.users.identity'
 ])
     .config(['$routeProvider', function($routeProvider) {

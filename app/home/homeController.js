@@ -1,7 +1,9 @@
 /**
  * Created by stoyan.stoyanov on 4/17/2016.
  */
-angular.module('issueTrascingSystem.home', [
+
+'use strict';
+angular.module('issueTrascingSystem.home.HomeController', [
 
     ])
     .config(['$routeProvider',
@@ -15,12 +17,23 @@ angular.module('issueTrascingSystem.home', [
     .controller('HomeController', [
         '$scope',
         function ($scope) {
+
             $scope.loginUser = function (){
                 console.log('loginUser');
             };
 
             $scope.registerUser = function () {
                 console.log('registerUser');
+            };
+
+            if(authentication.isAuthenicated()){
+                identity.getCurrentUser()
+                    .then(function (user) {
+                        $scope.currentUser = user;
+                        //Това е за менто горе
+                        $scope.isAuthenicated = true;
+                    });
             }
         }
+
     ]);

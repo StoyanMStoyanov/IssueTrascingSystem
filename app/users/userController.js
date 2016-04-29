@@ -25,25 +25,38 @@ angular.module('issueTrackerSystem.users.userController', [
         '$location',
         'authentication',
         function ($scope, $location, authentication) {
+            //----------------------------------------
             $scope.login = function (user) {
                 authentication.loginUser(user)
                     .then(function (loggedUser) {
                         //console.log(loggedUser);
-                        $location.path('/dashboard');
+                        $location.path('/register');
+                        //$location.path('/dashboard');
                     });
             };
-
+            //-----------------------------------------
             $scope.register = function (user) {
                 debugger;
                 authentication.registerUser(user)
                     .then(function (registeredUser) {
+                        $scope.registeredUser = registeredUser;
                         console.log(registeredUser);
-                        var loginUser = {
-                            username: registeredUser.config.email,
-                            password: registeredUser.config.password
-                        };
-                        debugger;
-                        authentication.loginUser(loginUser);
-                    });
+                        $location.path('/login');
+                    }, function (error) {
+                        console.log('This is error from THEN section after register user.')
+                    })
             };
+            //-----------------------------------------
+            $scope.logout = function () {
+                authentication.logout();
+            };
+
         }]);
+/* var loginUser = {
+ username: registeredUser.config.email,
+ password: registeredUser.config.password
+ }.then(function (usr) {
+ console.log(usr);
+ authentication.loginUser(loginUser);
+ console.log('Register after THEN THEN section.')
+ }*/

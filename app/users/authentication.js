@@ -10,7 +10,6 @@ angular.module('issueTrackerSystem.users.authentication', [])
         'BASE_URL',
         'toastr',
         function($http, $cookies, $q, $location, identity, BASE_URL, toastr) {
-
             var AUTHENTICATION_COOKIE_KEY = '__Authentication_Cookie_Key__';
 
             function preserveUserData(data){
@@ -25,7 +24,11 @@ angular.module('issueTrackerSystem.users.authentication', [])
                 //console.log(user);
                 $http.post(BASE_URL + 'api/Account//Register', user)
                     .then(function (user) {
-                        console.log(user);
+                        var newUser = {
+                            username: user.config.data.email,
+                            password: user.config.data.password
+                        };
+
                         toastr.info('User ' + user.config.data.email + ' Register Successfull.','Register');
 
                     });//тук нямаме error функция, защото ще имаме глобален error handling
@@ -73,7 +76,7 @@ angular.module('issueTrackerSystem.users.authentication', [])
                 return deferred.promise;
             }
 
-            function isAuthenicated(){
+            function isAuthenticated(){
                 return !!$cookies.get(AUTHENTICATION_COOKIE_KEY);
             }
 
@@ -87,7 +90,7 @@ angular.module('issueTrackerSystem.users.authentication', [])
 
             function refreshCookie(){
                 //Проверявам ако имам cookie да го get-на
-                if(isAuthenicated()){
+                if(isAuthenticated()){
                     $http.defaults.headers.common.Authorization = 'Bearer ' + $cookies.get(AUTHENTICATION_COOKIE_KEY);
                     identity.requestUserProfile();
                 }
@@ -96,7 +99,7 @@ angular.module('issueTrackerSystem.users.authentication', [])
             return {
                 registerUser: registerUser,
                 loginUser: loginUser,
-                isAuthenicated: isAuthenicated,
+                isAuthenticated: isAuthenticated,
                 logout: logout,
                 refreshCookie:refreshCookie
             }

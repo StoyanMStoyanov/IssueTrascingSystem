@@ -13,38 +13,38 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <body>
 <div class=jumbotron>
-<h2 style="margin-top: 0"> Add new Project</h2>
-<form>
-<div class="form-group">
-    <label for="exampleInputEmail1">Name</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Project Name">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Leader</label>
-    <select class="form-control">
-    	<option>Pesho</option>
-    	<option>Gosho</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Project Key</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Project Key">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Priorities (comma separated)</label>
-    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Available Priorities For The Issues" value="Low, Medium, Urgent">
-  </div>
-   <div class="form-group">
-    <label for="exampleInputPassword1">Labels (comma separated)</label>
-    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Labels" value="Soft">
-    <br>
-  </div>
-   <div class="form-group">
-    <label for="exampleInputPassword1">Description</label>
-    <textarea class="form-control" placeholder="Description"></textarea>
-  </div>
-  <button type="submit" class="btn btn-success">Add Project</button>
-</form>
+    <h2 style="margin-top: 0"> Add new Project</h2>
+    <form>
+        <div class="form-group">
+            <label for="projectName">Name</label>
+            <input type="text" class="form-control" id="projectName" placeholder="Project Name" ng-model="project.Name">
+        </div>
+        <div class="form-group">
+            <label for="projectLeader">Leader</label>
+            <select class="form-control" ng-model="project.LeadedId" id="projectLeader">
+        	    <option>Pesho</option>
+        	    <option>Gosho</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="projectKey" >Project Key</label>
+            <input type="text" class="form-control" id="projectKey" ng-model="project.ProjectKey" placeholder="Project Key">
+        </div>
+        <div class="form-group">
+            <label for="projectPriorities">Priorities (comma separated)</label>
+            <input type="text" class="form-control" id="projectPriorities" ng-model="project.Priorities" placeholder="Available Priorities For The Issues" value="Low, Medium, Urgent">
+        </div>
+        <div class="form-group">
+            <label for="projectLabels">Labels (comma separated)</label>
+            <input type="text" class="form-control" id="projectLabels" ng-model="project.Labels" placeholder="Labels" value="Soft">
+            <br/>
+        </div>
+        <div class="form-group">
+            <label for="projectDescription">Description</label>
+            <textarea class="form-control" id="projectDescription" placeholder="Description" ng-model="project.Description"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success" ng-click="addNewProject(project)">Add Project</button>
+    </form>
 </div>
 </body>
 </html>

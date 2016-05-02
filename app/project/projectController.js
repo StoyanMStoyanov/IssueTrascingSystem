@@ -11,26 +11,34 @@ angular.module('issueTrackerSystem.project.ProjectController', [
         });
 
         $routeProvider.when('/editProject', {
-            templateUrl: 'app/project/editProject.html'
+            templateUrl: 'app/project/editProject.html',
+            controller: 'ProjectController'
         });
     }])
     .controller('ProjectController', [
         '$scope',
         'authentication',
         'projectServices',
+        'toastr',
         function ($scope, authentication, projectServices) {
             $scope.projectServices = projectServices;
 
             if(authentication.isAuthenticated()){
                 $scope.isAuthenicated = true;
-                $scope.AllProjects = getAllProjects()
-                    .then(function (responce) {
-                        $scope.allProjects = responce.data;
-                        console.log($scope.allProjects);
-                    });
+                $scope.AllProjects = projectServices.getAllProjects();
+                //    .then(function (responce) {
+                //        $scope.allProjects = responce.data;
+                //        console.log($scope.allProjects);
+                 //   });
                 //projectServices.getAllProjects();
                 //console.log($scope.allProjects);
             }
+
+            $scope.addNewProject = projectServices.addProject(projectData)
+                .then(function () {
+                    toastr.info('Add new project successfully.');
+                });
+
             //---------------------------------------------------------------------
 
 

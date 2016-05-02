@@ -57,9 +57,10 @@ angular.module('issueTrackerSystem.project.projectServices', [])
             return deffer.promise;
         }
 
-        function  addProject(){
+        function  addProject(projectData){
             //TODO: Write logic for edit existing project
-            console.log('addProject function.');
+            console.log('addProject function. \n' + projectData);
+
         }
 
         function editProjectById(projectId){

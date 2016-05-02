@@ -3,7 +3,9 @@
  */
 
 'use strict';
-angular.module('issueTrackerSystem.dashboard.DashboardController', [])
+angular.module('issueTrackerSystem.dashboard.DashboardController', [
+        'issueTrackerSystem.project.projectServices'
+])
     .config(['$routeProvider', function ($routeProvider) {
         var routeChecks = {
             authenticated: ['$q', 'authentication', function ($q, authentication) {
@@ -13,7 +15,7 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
                 return $q.reject('Unauthorized Access.')
             }],
             adminRole: [function ($q, authentication) {
-                console.log(authentication.getUserProfile());
+                //console.log(authentication.getUserProfile());
                 var admin = authentication.getUserProfile().isAdmin;
                 if(admin){
                     return $q.when(true);
@@ -36,12 +38,22 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
     .controller('DashboardController',[
         '$scope',
         'authentication',
-        function ($scope, authentication) {
+        'projectServices',
+        function ($scope, authentication, projectServices) {
+            $scope.projectServices = projectServices;
+            var allProjects = {};
+
             var user = {};
             if(authentication.isAuthenticated()){
                 user = authentication.getCurrentUser();
                 $scope.currentUser = user;
                 $scope.isAuthenicated = true;
+                projectServices.getAllProjects()
+                    .then(function (projects) {
+                        $scope.projects = projects.data;
+                    });
+                console.log($scope.allProjects);
+
             }
             //---------------------------------------------------------------------
 

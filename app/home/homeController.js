@@ -4,7 +4,6 @@
 
 'use strict';
 angular.module('issueTrackerSystem.home.HomeController', [
-
     'issueTrackerSystem.users.authentication'
     ])
     .controller('HomeController', [
@@ -12,7 +11,9 @@ angular.module('issueTrackerSystem.home.HomeController', [
         '$scope',
         '$location',
         'authentication',
-        function ($rootScope, $scope, $location, authentication) {
+        'projectServices',
+        function ($rootScope, $scope, $location, authentication, projectServices) {
+            //$scope.projectServices = projectServices;
             var authenticated = authentication.isAuthenticated();
             if(authenticated){
                 authentication.getCurrentUser()

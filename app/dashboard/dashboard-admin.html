@@ -40,8 +40,13 @@
 		</tr>
 	</tbody>
 </table>
-<button class="btn btn-lg btn-success">Add New Project</button>
-<button class="btn btn-lg btn-success">Add New Issue</button>
+	<button class="btn btn-lg btn-success" ng-click="projectServices.addProject()">Add New Project</button>
+	<button class="btn btn-lg btn-success">Add New Issue</button>
+	<button class="btn btn-lg btn-success" ng-click="projectServices.getAllProjects()">Get All Projects</button>
+
+	<div ng-repeat="project in allProjects">
+		Project name: {{project}}
+	</div>
 </div>
 </body>
 </html>

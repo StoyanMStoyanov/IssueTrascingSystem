@@ -179,6 +179,7 @@ angular.module('issueTrackerSystem.users.authentication', [])
                 };
                 $http(request)
                     .then(function(responce){
+                        users.resolve(responce.data);
                         $rootScope.Users = responce.data;
                         console.log(responce);
                     });

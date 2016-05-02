@@ -20,7 +20,8 @@ angular.module('issueTrackerSystem.project.projectServices', [])
         }
 
         function getAllProjects(){
-            var deffered = $q.defer();
+            var differed = $q.defer();
+
             var request = {
                 method: 'GET',
                 url: BASE_URL + 'Projects/',
@@ -30,14 +31,30 @@ angular.module('issueTrackerSystem.project.projectServices', [])
             $http(request)
                 .then(function (responce) {
                     $rootScope.allProjects = responce.data;
-                //console.log(responce);
-                //return responce;
-            });
-            return deffered.promise;
+                    differed.resolve(responce.data);
+                    //return differed.resolve(responce.data);
+                });
+            return differed.promise;
         }
 
         function getProjectById(projectId){
-            //TODO: Write logic for add new project
+            projectId = projectId || 1;
+            var deffer = $q.defer();
+            var request = {
+                method: 'GET',
+                url: BASE_URL + 'Projects/' + projectId,
+                headers: {
+                    Authorization: 'Bearer ' + JSON.parse(sessionStorage['currentUser']).access_token
+                }
+            };
+            $http(request)
+                .then(function (responce) {
+                    deffer.resolve(responce.data);
+                    $rootScope.allProjects = responce.data;
+                    //console.log(responce);
+                    }
+                );
+            return deffer.promise;
         }
 
         function  addProject(){

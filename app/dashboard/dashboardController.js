@@ -41,18 +41,18 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [
         'projectServices',
         function ($scope, authentication, projectServices) {
             $scope.projectServices = projectServices;
-            var allProjects = {};
 
             var user = {};
             if(authentication.isAuthenticated()){
                 user = authentication.getCurrentUser();
                 $scope.currentUser = user;
                 $scope.isAuthenicated = true;
-                projectServices.getAllProjects()
-                    .then(function (projects) {
-                        $scope.projects = projects.data;
-                    });
-                console.log($scope.allProjects);
+                projectServices.getAllProjects();
+                //    .then(function (projects) {
+                //        $scope.allProjects = projects.data;
+                //        console.log($scope.allProjects);
+                //    });
+
 
             }
             //---------------------------------------------------------------------

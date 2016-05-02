@@ -10,10 +10,15 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
                 if(authentication.isAuthenticated()){
                     return $q.when(true);
                 }
-                return $q.reject('Unauthorized Access. LOGIN!')
+                return $q.reject('Unauthorized Access.')
             }],
-            adminRole: [function () {
-
+            adminRole: [function ($q, authentication) {
+                console.log(authentication.getUserProfile());
+                var admin = authentication.getUserProfile().isAdmin;
+                if(admin){
+                    return $q.when(true);
+                }
+                return $q.reject('You not admin.');
             }]
         };
         $routeProvider.when('/dashboard', {
@@ -31,16 +36,20 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
     .controller('DashboardController',[
         '$scope',
         'authentication',
-        'identity',
-        function ($scope, authentication, identity) {
-            if(authentication.isAuthenticated){
-                identity.getCurrentUser()
-                    .then(function (user) {
-                        $scope.currentUser = user;
-                        $scope.isAuthenicated = true;
-                    })
+        function ($scope, authentication) {
+            var user = {};
+            if(authentication.isAuthenticated()){
+                user = authentication.getCurrentUser();
+                $scope.currentUser = user;
+                $scope.isAuthenicated = true;
             }
             //---------------------------------------------------------------------
 
         }]);
-
+/* if(authentication.isAuthenticated){
+ authentication.getCurrentUser()
+ .then(function (user) {
+ $scope.currentUser = user;
+ $scope.isAuthenicated = true;
+ })
+ } */

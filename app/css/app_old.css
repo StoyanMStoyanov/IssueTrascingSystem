@@ -48,3 +48,16 @@ input.ng-invalid.ng-dirty {
 input.ng-valid {
   background-color: lightgreen ;
 }
+
+.link {
+  color: #2E75B6;
+  text-decoration: none;
+  padding: 0;
+  border-bottom: 1px dotted #2E75B6;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: #29619d;
+  text-decoration: none;
+}

@@ -2,105 +2,225 @@
 
 angular.module('issueTrackerSystem.users.authentication', [])
     .factory('authentication', [
+        '$rootScope',
         '$http',
-        '$cookies',
         '$q',
         '$location',
-        'identity',
         'BASE_URL',
         'toastr',
-        function($http, $cookies, $q, $location, identity, BASE_URL, toastr) {
-            var AUTHENTICATION_COOKIE_KEY = '__Authentication_Cookie_Key__';
+        function($rootScope, $http, $q, $location, BASE_URL, toastr) {
 
-            function preserveUserData(data){
-                var accessToken = data.access_token;
-                //console.log(accessToken);
-                $http.defaults.headers.common.Authorization = 'Bearer ' + accessToken;
-                $cookies.put(AUTHENTICATION_COOKIE_KEY, accessToken);
+            var currentUser = undefined;
+            var userProfile = undefined;
+            var isAdmin = undefined;
+
+            function loginUser(userData) {
+                var deferred = $q.defer();
+                userData.grant_type = 'password';
+                //console.log(userData); //Ok
+                var request = {
+                    method: 'POST',
+                    url: BASE_URL + 'api/Token',
+                    data: 'Username=' + userData.username
+                            + '&Password=' + userData.password
+                            + '&grant_type=' + userData.grant_type,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                };
+                $http(request).then(function (responce) {
+
+                    preserveUserData(responce.data);
+
+                    requestUserProfile()
+                        .then(function () {
+                            toastr.info('Success', 'Login successful.');
+                            deferred.resolve(responce.data);
+                        });
+                });
+                return deferred.promise;
             }
 
-            function registerUser(user) {
+            function registerUser(userData) {
                 var deferred = $q.defer();
                 //console.log(user);
-                $http.post(BASE_URL + 'api/Account//Register', user)
-                    .then(function (user) {
-                        var newUser = {
-                            username: user.config.data.email,
-                            password: user.config.data.password
-                        };
-
-                        toastr.info('User ' + user.config.data.email + ' Register Successfull.','Register');
-
+                var request = {
+                    method: 'POST',
+                    url: BASE_URL + 'api/Account//Register',
+                    data: userData
+                };
+                $http(request).then(function (user) {
+                    var userData = {
+                        username: user.config.data.email,
+                        password: user.config.data.password
+                    };
+                    toastr.info('User ' + userData.username + ' Register Successful.');
+                    loginUser(userData);
                     });//тук нямаме error функция, защото ще имаме глобален error handling
 
                 return deferred.promise;
             }
 
-            function loginUser(user) {
-                var deferred = $q.defer();
-                user.grant_type = 'password';
-                console.log(user);
-                $http({
-                    method: 'POST',
-                    url: BASE_URL + 'api/Token',
-                    data: 'Username=' + user.username
-                        + '&Password=' + user.password
-                        + '&grant_type=' + user.grant_type,
-                    headers: {
-                        'Content-Type':'application/x-www-form-urlencoded'
-                    }
-                }).then(function (responce) {
-                    preserveUserData(responce.data);
-                    identity.requestUserProfile()
-                        .then(function () {
-                            toastr.info('Success', 'Login successful.');
-                            deferred.resolve(responce.data);
-                        });
-                    });
-                /*$http.post(BASE_URL + 'api/Token', user)
-                    .then(function(response) {
-                        preserveUserData(response.data);
-                        debugger;
-                        identity.requestUserProfile()
-                            .then(function () {
-                                //след като някой се логне веднага правим втора завка за да му вземем
-                                //user datata - това се случва след като вече сме му сетнали access token-a
-                                //това го правим след като имаме целия user
-                                deferred.resolve(response.data);
-                            }, function (error) {
-                                console.log(error);
-                            });
-
-                    }); //тук нямаме error функция, защото ще имаме глобален error handling
-                */
-                return deferred.promise;
+            function logout() {
+                delete sessionStorage['currentUser'];
+                $http.defaults.headers.common.Authorization = undefined;
+                toastr.info('Logout!', 'User successfully logout.');
+                removeUserProfile();
             }
 
             function isAuthenticated(){
-                return !!$cookies.get(AUTHENTICATION_COOKIE_KEY);
+                return !!sessionStorage['currentUser'];
             }
 
-            function logout() {
-                debugger;
-                $cookies.remove(AUTHENTICATION_COOKIE_KEY);
-                $http.defaults.headers.common.Authorization = undefined;
-                identity.removeUserProfile();
-                $location.path('/');
+            function isAnonymous(){
+                //console.log(sessionStorage['currentUser'] == undefined);
+                //debugger;
+                return (sessionStorage['currentUser'] == undefined);
             }
 
-            function refreshCookie(){
-                //Проверявам ако имам cookie да го get-на
+            function isLoggedIn(){
+                return sessionStorage['currentUser'] != undefined;
+            }
+
+            function refreshSessionStorage(){
+                //Проверявам ако имам currentUser в sessionStorage да го get-на
+                //след това правя втора заявка за да взема профила на текущия user
                 if(isAuthenticated()){
-                    $http.defaults.headers.common.Authorization = 'Bearer ' + $cookies.get(AUTHENTICATION_COOKIE_KEY);
-                    identity.requestUserProfile();
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage['currentUser'];
+                    requestUserProfile();
                 }
             }
 
+            function preserveUserData(data){
+                var accessToken = data.access_token;
+                //console.log(accessToken);
+                $http.defaults.headers.common.Authorization = 'Bearer ' + accessToken;
+                sessionStorage['currentUser'] = JSON.stringify(data);
+            }
+
+            function getCurrentUser() {
+                var differed = $q.defer();
+                if(currentUser){
+                    return $q.when(currentUser);
+                } else {
+                    return differed.promise;
+                }
+            }
+
+            function getCurrentUser111() {
+                var userObject = sessionStorage['currentUser'];
+                if (userObject) {
+                    return JSON.parse(sessionStorage['currentUser']);
+                }
+            }
+
+            function removeUserProfile() {
+                currentUser = undefined;
+                userProfile = undefined;
+                isAdmin = undefined;
+            }
+
+            function requestUserProfile() {
+                //Този deffer връща профила на user-a
+                var userProfileDeffered = $q.defer();
+                var request = {
+                    method: 'GET',
+                    url: BASE_URL + 'Users/me',
+                    headers: {
+                        Authorization:  'Bearer ' + JSON.parse(sessionStorage['currentUser']).access_token}
+                    };
+                $http(request).then(function (responce) {
+                    currentUser = responce.data;
+                    userProfileDeffered.resolve();
+                    userProfile = currentUser;
+                    //console.log(userProfile.isAdmin);
+
+                });
+                return userProfileDeffered.promise;
+            }
+
+            function isNormalUser(){
+                return (currentUser!= undefined) && (currentUser.isAdmin);
+            }
+
+            function isAdmin(){
+                console.log(isAdmin);
+                var admin = $.defer();
+
+                if(isAdmin){
+
+                    return $q.when(isAdmin)
+                } else {
+                    return admin.promise;
+                }
+                console.log(isAdmin);
+            }
+
+            function changePassword(userData){
+                var request = {
+                    method: 'POST',
+                    url: BASE_URL + 'api/Account/changePassword',
+                    data: userData,
+                    headers: {Authorization:  'Bearer ' + JSON.parse(sessionStorage['currentUser']).access_token}
+                };
+                $http(request)
+                    .then(function () {
+                        toastr.info('Password changed successfully.');
+                        $location.path('dashboard')
+                    })
+            }
+
+            function getAllUsers(){
+                var users = $q.defer();
+                var request = {
+                    method: 'GET',
+                    url: BASE_URL + 'users/',
+                    headers: {Authorization: 'Bearer ' + JSON.parse(sessionStorage['currentUser']).access_token}
+                };
+                $http(request)
+                    .then(function(responce){
+                        $rootScope.Users = responce.data;
+                        console.log(responce);
+                    });
+                return users.promise;
+            }
+
+            function makeAdmin (){
+                var userId = currentUser.Id;
+                var request = {
+                    method: 'PUT',
+                    url: BASE_URL + 'users/makeadmin',
+                    data: 'userId' + userId,
+                    headers: {
+                        Authorization: 'Bearer ' + JSON.parse(sessionStorage['currentUser']).access_token,
+                        'Content-type': 'application/x-www-form-urlencoded'
+                    }
+                };
+                $http(request).then(function () {
+                    toastr.info('User:' + currentUser.userName  + ' is admin.')
+                });
+            }
+
+            function getUserProfile(){
+                return userProfile;
+            }
+
             return {
-                registerUser: registerUser,
                 loginUser: loginUser,
-                isAuthenticated: isAuthenticated,
+                registerUser: registerUser,
                 logout: logout,
-                refreshCookie:refreshCookie
+                isAuthenticated: isAuthenticated,
+                isAnonymous: isAnonymous,
+                isLoggedIn: isLoggedIn,
+                refreshSessionStorage:refreshSessionStorage,
+                getCurrentUser: getCurrentUser,
+                removeUserProfile: removeUserProfile,
+                requestUserProfile: requestUserProfile,
+                isNormalUser: isNormalUser,
+                isAdmin: isAdmin,
+                changePassword: changePassword,
+                getAllUsers: getAllUsers,
+                makeAdmin: makeAdmin,
+                getUserProfile: getUserProfile
             }
         }]);

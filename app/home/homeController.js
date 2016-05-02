@@ -3,28 +3,48 @@
  */
 
 'use strict';
-angular.module('issueTrackerSystem.home.HomeController', [])
-    .config(['$routeProvider',
-        function ($routeProvider) {
-            $routeProvider.when('/', {
-                templateUrl: 'app/home/welcome.html',
-                controller: 'HomeController'
-            });
-        }
+angular.module('issueTrackerSystem.home.HomeController', [
+
+    'issueTrackerSystem.users.authentication'
     ])
     .controller('HomeController', [
+        '$rootScope',
         '$scope',
+        '$location',
         'authentication',
-        'identity',
-        function ($scope, authentication, identity) {
-            if(authentication.isAuthenticated()){
-                identity.getCurrentUser()
+        function ($rootScope, $scope, $location, authentication) {
+            var authenticated = authentication.isAuthenticated();
+            if(authenticated){
+                authentication.getCurrentUser()
                     .then(function (user) {
+                        console.log(user);
                         $scope.currentUser = user;
-                        $scope.isAuthenticated = true;
-                        console.log('Authenticated ' + user);
+                        $rootScope.isAuthenticated = true;
+                        $location.path('/dashboardAdmin')
                     });
             }
 
+
         }
     ]);
+
+
+/*
+*
+
+ var user = {};
+ if(authentication.isAuthenticated()){
+ user = authentication.getCurrentUser();
+ $scope.currentUser = user;
+ $scope.isAuthenicated = true;
+ //debugger;
+ console.log(authentication.isAdmin());
+ if(authentication.isAdmin){
+ $scope.isAdmin = 'Admin';
+ } else {
+ $scope.isAdmin = 'None';
+ }
+ $scope.username = user.userName;
+ //console.log(user.userName);
+ }
+* */

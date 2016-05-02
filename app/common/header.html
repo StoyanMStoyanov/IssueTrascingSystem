@@ -1,0 +1,44 @@
+<!--
+<div ng-if="true"ng-controller="UserController" >
+
+
+
+
+
+
+</div>
+
+
+-->
+
+<div class="navbar navbar-default" ng-controller="UserController">
+    <div class="container">
+        <div class="navbar-collapse collapse" ng-if="true" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li>
+                  <a href="#/dashboardAdmin">Home</a>
+                </li>
+                <li>
+                  <a href="#/getAllUsers" ng-click="getUsers()" >Get all users</a>
+                </li>
+                <li>
+                  <a href ng-click="makeCurrentUserAdmin()">Make Admin</a>
+                </li>
+              <li>
+                <a href="#/changePassword" ng-click="changePassword()">Change password</a>
+              </li>
+              <li>
+                <a href="#/logout" ng-click="logout()">Logout</a>
+              </li>
+            </ul>
+            <span class="rigth nav navbar-nav" ng-if="true">
+              <span>
+                User: {{username}} &nbsp;&nbsp;isAdmin: {{isAdmin}}
+              </span>
+            </span>
+        </div>
+      <h1 class="main-header text-center">Welcome to Issue Tracker System!</h1>
+    </div>
+
+</div>
+

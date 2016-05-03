@@ -35,10 +35,12 @@ angular.module('issueTrackerSystem', [
                     toastr.info(rejection + ' Login again!');
                 }
 
-                if(rejection == 'You not admin.'){
+                if(rejection == 'You is not admin.'){
                     $location.path('/dashboard');
                     toastr.info(rejection);
                 }
+
+
             });
 
 

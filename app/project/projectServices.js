@@ -59,7 +59,7 @@ angular.module('issueTrackerSystem.project.projectServices', [])
 
         function  addProject(projectData){
             //TODO: Write logic for edit existing project
-            console.log('addProject function. \n' + projectData);
+            console.log(projectData);
 
         }
 

@@ -3,9 +3,7 @@
  */
 
 'use strict';
-angular.module('issueTrackerSystem.dashboard.DashboardController', [
-        'issueTrackerSystem.project.projectServices'
-])
+angular.module('issueTrackerSystem.dashboard.DashboardController', [])
     .config(['$routeProvider', function ($routeProvider) {
         var routeChecks = {
             authenticated: ['$q', 'authentication', function ($q, authentication) {
@@ -40,7 +38,7 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [
         'authentication',
         'projectServices',
         function ($scope, authentication, projectServices) {
-            $scope.projectServices = projectServices;
+            //$scope.projectServices = projectServices;
 
             var user = {};
             if(authentication.isAuthenticated()){

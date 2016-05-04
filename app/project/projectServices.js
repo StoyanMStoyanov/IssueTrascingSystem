@@ -12,12 +12,6 @@ angular.module('issueTrackerSystem.project.projectServices', [])
         'BASE_URL',
         'authentication',
     function ($rootScope, $http, $q, BASE_URL, authentication) {
-        function getLatestProjects(pageSize){
-            pageSize = pageSize || 5;
-            //TODO: Write logic for add new project
-
-
-        }
 
         function getAllProjects(){
             var differed = $q.defer();
@@ -32,7 +26,7 @@ angular.module('issueTrackerSystem.project.projectServices', [])
                 .then(function (responce) {
                     $rootScope.allProjects = responce.data;
                     differed.resolve(responce.data);
-                    //return differed.resolve(responce.data);
+                    //console.log(responce);
                 });
             return differed.promise;
         }
@@ -49,8 +43,8 @@ angular.module('issueTrackerSystem.project.projectServices', [])
             };
             $http(request)
                 .then(function (responce) {
-                    deffer.resolve(responce.data);
-                    $rootScope.allProjects = responce.data;
+                    $rootScope.allProjects = responce;
+                    deffer.resolve(responce);
                     //console.log(responce);
                     }
                 );
@@ -58,13 +52,70 @@ angular.module('issueTrackerSystem.project.projectServices', [])
         }
 
         function  addProject(projectData){
-            //TODO: Write logic for edit existing project
-            console.log(projectData);
 
+            var deffered = $q.defer();
+
+            var parsedProjectData = {};
+
+            parsedProjectData.Description = projectData.Description;
+            parsedProjectData.LeadId = projectData.LeadId;
+            parsedProjectData.Name = projectData.Name;
+            parsedProjectData.ProjectKey = parseProjectKey(projectData.Name);
+            parseArray('priorities', '.Name', projectData.Priorities.split(','), parsedProjectData);
+            parseArray('labels', '.Name', projectData.Labels.split(','), parsedProjectData);
+            console.log('Data before convert: '+parsedProjectData);
+            var projData = convertToString(parsedProjectData);
+            console.log(projData);
+
+            var request = {
+                method: 'POST',
+                url: BASE_URL + 'Projects/',
+                data: projData,
+                headers: {
+                    Authorization: 'Bearer ' + JSON.parse(sessionStorage['currentUser']).access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            };
+            console.log(request);
+            $http(request).then(function (request) {
+                deffered.resolve(request);
+            });
+            return deffered.promise;
         }
 
         function editProjectById(projectId){
             //TODO: Write logic for add new project
+        }
+
+        function parseProjectKey(inputString){
+            var outputString = '';
+            inputString.split(' ')
+                .forEach(function (str) {
+                    outputString+=(str[0]);
+                });
+            return outputString;
+        }
+
+        function parseArray(key1, key2, array, projectCollection){
+            var index, len;
+            var key = '', value = '';
+            for(index = 0, len = array.length; index < len; index++){
+                key = key1+'['+index+']'+ key2;
+                value = array[index];
+                projectCollection[key]=value;
+            }
+        }
+
+        function convertToString(input){
+            var outputString = '';
+            for(var item in input){
+                outputString += encodeURI(item)+'='+encodeURI(input[item])+ '&';
+            }
+            outputString = outputString.replace(/%20+/g, '+');
+            var index = outputString.length-1;
+            outputString = outputString.substring(0, index);
+
+            return outputString;
         }
 
         return {

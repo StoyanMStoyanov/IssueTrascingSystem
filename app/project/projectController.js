@@ -50,21 +50,20 @@ angular.module('issueTrackerSystem.project.ProjectController', [
             $scope.addNewProject = function (project) {
                 projectServices.addProject(project)
                 .then(function (registeredProject) {
-                    console.log(registeredProject);
-                    //TODO: Show newly registered project
-                    //toastr.info('Project ' + registeredProject.name + 'was successfully added.');
+                    //console.log(registeredProject);
+                    toastr.info('Project ' + registeredProject.name + 'was successfully added.');
                     //$location.path('');
                 })
             };
             //---------------------------------------------------------------------
             $scope.editExistingProject = function (projectId) {
-                projectServices.editProjectById(projectId)
-                    .then(function (editedProject) {
-                        console.log(editedProject);
+                projectServices.editProjectById(projectId);
+                //    .then(function (editedProject) {
+                //        console.log(editedProject);
                         //TODO: Show newly registered project
                         //toastr.info('Project ' + registeredProject.name + 'was successfully edited.');
-                        $location.path('');
-                    })
+                //        $location.path('');
+                //    })
             };
             //---------------------------------------------------------------------
 

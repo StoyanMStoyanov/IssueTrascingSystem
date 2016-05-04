@@ -97,6 +97,14 @@ angular.module('issueTrackerSystem.users.userController', [
             //-----------------------------------------
             $scope.makeCurrentUserAdmin = function () {
                 authentication.makeAdmin();
+            };
+
+            $scope.getAllUsers = function () {
+                authentication.getAllUsers()
+                    .then(function (allUsers) {
+                        //console.log(allUsers);
+                        $scope.allUsers = allUsers;
+                    })
             }
 
         }]);

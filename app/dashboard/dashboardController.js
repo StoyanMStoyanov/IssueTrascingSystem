@@ -38,7 +38,7 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
         'authentication',
         'projectServices',
         function ($scope, authentication, projectServices) {
-            //$scope.projectServices = projectServices;
+            $scope.projectServices = projectServices;
 
             var user = {};
             if(authentication.isAuthenticated()){

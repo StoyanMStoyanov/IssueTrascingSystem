@@ -139,11 +139,11 @@ angular.module('issueTrackerSystem.users.authentication', [])
             }
 
             function isNormalUser(){
-                return (currentUser!= undefined) && (currentUser.isAdmin);
+                return (currentUser!= undefined) && (userProfile.isAdmin);
             }
 
             function isAdmin(){
-                console.log(userProfile.isAdmin);
+                //console.log(userProfile.isAdmin);
                 return !!userProfile.isAdmin;
             }
 
@@ -172,22 +172,23 @@ angular.module('issueTrackerSystem.users.authentication', [])
                     .then(function(responce){
                         users.resolve(responce.data);
                         $rootScope.Users = responce.data;
-                        console.log(responce);
+                        //console.log(responce);
                     });
                 return users.promise;
             }
 
-            function makeAdmin (){
-                var userId = currentUser.Id;
+            function makeAdmin (userId){
+                userId = userId || 'cbe9c46d-9150-42d9-a641-3c504b3043e9';
                 var request = {
                     method: 'PUT',
                     url: BASE_URL + 'users/makeadmin',
-                    data: 'userId' + userId,
+                    data: 'userId=' + userId,
                     headers: {
                         Authorization: 'Bearer ' + JSON.parse(sessionStorage['currentUser']).access_token,
                         'Content-type': 'application/x-www-form-urlencoded'
                     }
                 };
+                console.log(request);
                 $http(request).then(function () {
                     toastr.info('User:' + currentUser.userName  + ' is admin.')
                 });

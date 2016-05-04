@@ -5,16 +5,7 @@
             <label for="projectName">Name</label>
             <input type="text" class="form-control" id="projectName" placeholder="Project Name" ng-model="project.Name">
         </div>
-        <div class="form-group">
-            <label for="projectLeader">Leader</label>
-            <select class="form-control" ng-model="project.LeadId" id="projectLeader">
-        	    <option>Pesho</option>
-        	    <option>Gosho</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="projectKey" >Project Key</label>
-            <input type="text" class="form-control" id="projectKey" ng-model="project.ProjectKey" placeholder="Project Key">
+        <div class="form-group" ng-include="'app/project/selectUser.html'">
         </div>
         <div class="form-group">
             <label for="projectPriorities">Priorities (comma separated)</label>

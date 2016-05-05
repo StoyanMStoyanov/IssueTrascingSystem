@@ -1,0 +1,41 @@
+<div class=jumbotron ng-controller="IssueController">
+<h2 style="margin-top: 0"> Add new Issue</h2>
+<form name="issueData" ng-submit="addIssue(issue)">
+    <div class="form-group">
+        <label for="addNewIssueTitle">Title</label>
+        <input type="text" class="form-control" ng-model="issue.Title" id="addNewIssueTitle" placeholder="Issue Title"/>
+    </div>
+    <div class="form-group" ng-include="'app/issues/selectIssueUser.html'">
+    </div>
+    <div class="form-group" ng-include="'app/issues/selectProject.html'">
+    </div>
+    <!--
+    <div class="form-group">
+        <label for="addNewIssuePriority">Priority</label>
+        <select class="form-control" id="addNewIssuePriority" ng-model="issue.PriorityId">
+            <option value="3">High</option>
+            <option value="2">Medium</option>
+            <option value="1">Low</option>
+        </select>
+    </div>
+    -->
+    <div class="form-group">
+        <label for="addNewIssuePriority">Priority</label>
+        <input type="text" class="form-control" ng-model="issue.PriorityId" id="addNewIssuePriority" />
+    </div>
+    <div class="form-group">
+        <label for="addNewIssueDueDate">Due Date</label>
+        <input type="text" class="form-control" ng-model="issue.DueDate" id="addNewIssueDueDate" placeholder="dd/mm/yyyy"/>
+    </div>
+    <div class="form-group">
+        <label for="addNewIssueLabels">Labels (comma separated)</label>
+        <input type="text" class="form-control" ng-model="issue.Labels" id="addNewIssueLabels" placeholder="Labels" value="Soft"/>
+        <br>
+    </div>
+    <div class="form-group">
+        <label for="addNewIssueDescription">Description</label>
+        <textarea class="form-control" ng-model="issue.Description" placeholder="Description" id="addNewIssueDescription"></textarea>
+    </div>
+  <button class="btn btn-success" type="submit">Add Issue</button>
+</form>
+</div>

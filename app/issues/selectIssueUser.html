@@ -1,0 +1,5 @@
+<label for="projectLeader">Leader</label>
+<select ng-model="issue.AssigneeId" id="projectLeader" data-ng-controller="UserController" data-ng-init="getAllUsers()">
+    <option value="">---Please slect---</option>
+    <option  ng-repeat="user in allUsers" value="{{user.Id}}">{{user.Username}}</option>
+</select>

@@ -12,7 +12,9 @@ angular.module('issueTrackerSystem', [
     'issueTrackerSystem.users.authentication',
     'issueTrackerSystem.common.footerDirective',
     'issueTrackerSystem.project.projectServices',
-    'issueTrackerSystem.project.ProjectController'
+    'issueTrackerSystem.project.ProjectController',
+    'issueTrackerSystem.issues.issueController',
+    'issueTrackerSystem.issues.issueServices'
     ])
     .config(['$routeProvider', function($routeProvider) {
     $routeProvider.otherwise({redirectTo: '/'});
@@ -36,7 +38,7 @@ angular.module('issueTrackerSystem', [
                 }
 
                 if(rejection == 'You is not admin.'){
-                    $location.path('/dashboard');
+                    $location.path('/dashboardAdmin');
                     toastr.info(rejection);
                 }
 

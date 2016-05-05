@@ -12,7 +12,6 @@ angular.module('issueTrackerSystem.users.authentication', [])
 
             var currentUser = undefined;
             var userProfile = undefined;
-            //var isAdmin = undefined;
 
             function loginUser(userData) {
                 var deferred = $q.defer();
@@ -144,7 +143,11 @@ angular.module('issueTrackerSystem.users.authentication', [])
 
             function isAdmin(){
                 //console.log(userProfile.isAdmin);
-                return !!userProfile.isAdmin;
+                if(userProfile != 'undefined' && userProfile.isAdmin){
+                    console.log('isAdmin - true');
+                    return true;
+                }
+                return false;
             }
 
             function changePassword(userData){

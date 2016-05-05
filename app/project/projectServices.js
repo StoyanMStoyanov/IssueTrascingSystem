@@ -10,15 +10,15 @@ angular.module('issueTrackerSystem.project.projectServices', [])
         '$http',
         '$q',
         'BASE_URL',
-        'authentication',
-    function ($rootScope, $http, $q, BASE_URL, authentication) {
+        function ($rootScope, $http, $q, BASE_URL) {
 
-        function getAllProjects(){
+        function getAllProjects(projectId){
+            projectId = projectId || '';
             var differed = $q.defer();
 
             var request = {
                 method: 'GET',
-                url: BASE_URL + 'Projects/',
+                url: BASE_URL + 'Projects/' + projectId,
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(sessionStorage['currentUser']).access_token
                 }};
@@ -43,9 +43,9 @@ angular.module('issueTrackerSystem.project.projectServices', [])
             };
             $http(request)
                 .then(function (responce) {
-                    $rootScope.allProjects = responce;
+                    $rootScope.allProjects = responce.data;
                     deffer.resolve(responce);
-                    //console.log(responce);
+                    console.log(responce.data);
                     }
                 );
             return deffer.promise;
@@ -61,11 +61,11 @@ angular.module('issueTrackerSystem.project.projectServices', [])
             parsedProjectData.LeadId = projectData.LeadId;
             parsedProjectData.Name = projectData.Name;
             parsedProjectData.ProjectKey = parseProjectKey(projectData.Name);
-            parseArray('priorities', '.Name', projectData.Priorities.split(','), parsedProjectData);
-            parseArray('labels', '.Name', projectData.Labels.split(','), parsedProjectData);
-            console.log('Data before convert: '+parsedProjectData);
+            parseArray('priorities', '.Name', projectData.Priorities.replace(' ', '').split(','), parsedProjectData);
+            parseArray('labels', '.Name', projectData.Labels.replace(/\s+/g, '').split(','), parsedProjectData);
+            //console.log('Data before convert: '+parsedProjectData);
             var projData = convertToString(parsedProjectData);
-            console.log(projData);
+            //console.log(projData);
 
             var request = {
                 method: 'POST',
@@ -76,7 +76,7 @@ angular.module('issueTrackerSystem.project.projectServices', [])
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             };
-            console.log(request);
+            //console.log(request);
             $http(request).then(function (request) {
                 deffered.resolve(request);
             });

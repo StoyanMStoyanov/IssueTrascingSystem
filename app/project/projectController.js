@@ -32,6 +32,12 @@ angular.module('issueTrackerSystem.project.ProjectController', [
             controller: 'ProjectController',
             resolve: routeChecks.adminRole
         });
+
+        $routeProvider.when('/project/:Id', {
+            templateUrl: 'app/project/projectDetails.html',
+            controller: 'ProjectController',
+            resolve: routeChecks.adminRole
+        });
     }])
     .controller('ProjectController', [
         '$rootScope',
@@ -41,17 +47,24 @@ angular.module('issueTrackerSystem.project.ProjectController', [
         'projectServices',
         'toastr',
         function ($rootScope, $scope, $location, authentication, projectServices, toastr) {
+            //debugger;
             //$scope.projectServices = projectServices;
             if(authentication.isAuthenticated()){
                 $scope.isAuthenicated = true;
-                $scope.allProjects = projectServices.getAllProjects();
+                /*$scope.allProjects = function () {
+                    projectServices.getAllProjects()
+                        .then(function (allProjects) {
+                            $scope.projects = allProjects;
+                        });
+                }*/
+
             }
             //---------------------------------------------------------------------
             $scope.addNewProject = function (project) {
                 projectServices.addProject(project)
                 .then(function (registeredProject) {
                     //console.log(registeredProject);
-                    toastr.info('Project ' + registeredProject.name + 'was successfully added.');
+                    toastr.info('Project was successfully added.');
                     //$location.path('');
                 })
             };
@@ -67,5 +80,26 @@ angular.module('issueTrackerSystem.project.ProjectController', [
             };
             //---------------------------------------------------------------------
 
+            $scope.getAllProjects = function () {
+                projectServices.getAllProjects()
+                    .then(function (allProjects) {
+                        //console.log(allProjects);
+                        $scope.allProjects = allProjects;
+                    })
+            };
+            //---------------------------------------------------------------------
+
+            $scope.getProjectById = function (projectId) {
+                projectServices.getAllProjects(projectId)
+                    .then(function (allProjects) {
+                        //console.log(allProjects);
+                        $location.redirectTo('/')
+                    })
+            };
+
+            $scope.redirect = function (projectId) {
+                console.log('function redirect');
+                $location.path('/project/' + projectId);
+            }
 
     }]);

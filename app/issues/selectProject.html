@@ -1,0 +1,5 @@
+<label for="projectId">Project</label>
+<select ng-model="issue.projectId" id="projectId" data-ng-controller="ProjectController" data-ng-init="getAllProjects()">
+    <option value="">---Please slect---</option>
+    <option  ng-repeat="project in allProjects" value="{{project.Id}}">{{project.Name}}</option>
+</select>

@@ -45,7 +45,6 @@ angular.module('issueTrackerSystem.users.userController', [
         $routeProvider.when('/getAllUsers', {
             templateUrl:'app/users/allUsers.html',
             controller: 'UserController'
-
         });
 
 
@@ -82,7 +81,7 @@ angular.module('issueTrackerSystem.users.userController', [
             $scope.getUsers = function () {
                 authentication.getAllUsers()
                     .then(function (userData) {
-                        console.log(userData);
+                        //console.log(userData);
                         $scope.Users = userData.data;
                         $location.path('/getAllUsers');
                     });

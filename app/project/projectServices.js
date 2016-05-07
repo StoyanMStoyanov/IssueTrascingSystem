@@ -15,7 +15,7 @@ angular.module('issueTrackerSystem.project.projectServices', [])
         function getAllProjects(projectId){
             projectId = projectId || '';
             var differed = $q.defer();
-
+            //debugger;
             var request = {
                 method: 'GET',
                 url: BASE_URL + 'Projects/' + projectId,
@@ -24,14 +24,19 @@ angular.module('issueTrackerSystem.project.projectServices', [])
                 }};
             $http(request)
                 .then(function (responce) {
-                    $rootScope.allProjects = responce.data;
+                    $rootScope.project = responce.data;
                     differed.resolve(responce.data);
                     //console.log(responce);
                 });
             return differed.promise;
         }
 
-        function getProjectById(projectId){
+            function getProjectById(project){
+                $rootScope.projectById = project;
+                //console.log('Project by id ' + $rootScope.projectById);
+            }
+
+        function getProjectById_Old(projectId){
             projectId = projectId || 1;
             var deffer = $q.defer();
             var request = {
@@ -43,7 +48,6 @@ angular.module('issueTrackerSystem.project.projectServices', [])
             };
             $http(request)
                 .then(function (responce) {
-                    $rootScope.allProjects = responce.data;
                     deffer.resolve(responce);
                     console.log(responce.data);
                     }

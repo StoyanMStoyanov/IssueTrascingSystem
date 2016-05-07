@@ -1,6 +1,7 @@
 body {
     font-family: Calibri, Arial, serif;
     background-color: #E2F0D9;
+
 }
 
 .container {
@@ -199,6 +200,11 @@ ul.sidebar-menu li a, ul.sidebar-menu li a:focus {
 .rigth {
     position: fixed;
     padding: 15px;
+    margin-left: 119px;
+    border: 2px solid #204d74;
+    border-radius: 4px;
+    color: white;
     right: 0;
-    color: #777;
+    background-color: #337ab7;
+
 }

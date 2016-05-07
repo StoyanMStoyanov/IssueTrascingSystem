@@ -5,17 +5,18 @@
 
 angular.module('issueTrackerSystem.issues.issueServices', [])
     .factory('issueServices', [
-    '$http',
-    '$q',
-    'BASE_URL',
-    function ($http, $q, BASE_URL) {
+        '$rootScope',
+        '$http',
+        '$q',
+        'BASE_URL',
+        function ($rootScope, $http, $q, BASE_URL) {
 
-        function addNewIssue(inputIssueData){
-            //TODO: Write logic for add new issue
+            function addNewIssue(inputIssueData){
+
             var deferred = $q.defer();
 
             var parsedIssueData = inputIssueData;
-            var dataForParse = parsedIssueData.Labels.replace(/\s+/g, '');
+            var dataForParse = parsedIssueData.Labels.replace(/\s+/g, '') || '';
             delete parsedIssueData['Labels'];
             parseArray('labels', '.Name', dataForParse.split(','), parsedIssueData);
             //dataForParse = parsedIssueData.DueDate;
@@ -42,11 +43,40 @@ angular.module('issueTrackerSystem.issues.issueServices', [])
             return deferred.promise;
         }
 
-        function editIssue(issue){
-            //TODO: Write logic for edit existing issue
+            function editIssueById(issueId){
+                //TODO: Write logic for edit existing issue
+                console.log('Edit issue by id function.')
+            }
+
+            function getIssueById(issue){
+                //console.log('Get issue by id function.' + issue)
+                $rootScope.issue = issue;
+            }
+
+            function getIssuesMe(orderBy , pageSize, pageNumber){
+            pageSize = pageSize || 5;
+            pageNumber = pageNumber || 1;
+            orderBy = orderBy || 'Project.Name';
+            var deffer = $q.defer();
+
+            var request = {
+                method: 'GET',
+                url: BASE_URL + 'issues/me' + '?pageSize=' + pageSize + '&pageNumber=' + pageNumber
+                    + '&orderBy='+ orderBy,
+                headers: {
+                    Authorization: 'Bearer ' + JSON.parse(sessionStorage['currentUser']).access_token
+                }
+            };
+            //console.log(request);
+            $http(request)
+                .then(function (requestedIssues) {
+                    //console.log(requestedIssues.data);
+                    return deffer.resolve(requestedIssues);
+                });
+            return deffer.promise;
         }
 
-        function parseArray(key1, key2, array, projectCollection){
+            function parseArray(key1, key2, array, projectCollection){
             var index, len;
             var key = '', value = '';
             for(index = 0, len = array.length; index < len; index++){
@@ -56,7 +86,7 @@ angular.module('issueTrackerSystem.issues.issueServices', [])
             }
         }
 
-        function convertToString(input){
+            function convertToString(input){
             var outputString = '';
             for(var item in input){
                 outputString += encodeURI(item)+'='+encodeURI(input[item])+ '&';
@@ -68,7 +98,7 @@ angular.module('issueTrackerSystem.issues.issueServices', [])
             return outputString;
         }
 
-        function parseDate(inputDate){
+            function parseDate(inputDate){
             var outputDate = '';
             var date = new Date(inputDate);
             outputDate = date.getFullYear() + '\/' + (date.getMonth()+1) + '\/' + date.getDate();
@@ -76,9 +106,11 @@ angular.module('issueTrackerSystem.issues.issueServices', [])
             return outputDate;
         }
 
-        return {
-            addNewIssue: addNewIssue,
-            editIssue: editIssue
-        }
+            return {
+                addNewIssue: addNewIssue,
+                editIssueById: editIssueById,
+                getIssuesMe: getIssuesMe,
+                getIssueById: getIssueById
+            }
     }
 ]);

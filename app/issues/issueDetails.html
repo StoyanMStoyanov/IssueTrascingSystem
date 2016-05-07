@@ -1,0 +1,40 @@
+<div class="col-md-6">
+    <h2>Issue details:</h2>
+
+    <table class="table table-striped" >
+        <thead>
+        <tr>
+            <td>Issue number</td>
+            <td>Issue title</td>
+            <td>Project name</td>
+            <td>DueDate</td>
+        </tr>
+        </thead>
+        <tbody >
+        <tr>
+            <td class="text-center">{{issue.Id}}</td>
+            <td>{{issue.Title}}</td>
+            <td>{{issue.Project.Name}}</td>
+            <td>{{issue.DueDate}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div >
+
+        <label>Issue description: {{issue.Description}}</label>
+        <br/>
+        <label>Issue DueDate: {{issue.DueDate}}</label>
+        <br/>
+        <label>Issue assigned by: {{issue.Assignee.Username}}</label>
+        <br/>
+        <label>Issue author: {{issue.Author.Username}}</label>
+        <br/>
+        <label>Issue key: {{issue.IssueKey}}</label>
+        <br/>
+        <label>Issue status: {{issue.Status.Name}}</label>
+        <br/>
+        <label>Issue priority: {{issue.Priority.Name}}</label>
+        <br/>
+        <label>Issue Labels: {{issue.Labels}}</label>
+    </div>
+</div>

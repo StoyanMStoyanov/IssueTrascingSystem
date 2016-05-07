@@ -18,16 +18,18 @@
 <table class="table table-striped" >
 	<thead>
 		<tr>
-			<td>Project number</td>
+			<td>Issue number</td>
+			<td>Issue title</td>
 			<td>Project name</td>
-			<td>Project description</td>
+			<td>Issue description</td>
 		</tr>
 	</thead>
 	<tbody >
-		<tr ng-repeat="project in allProjects">
-			<td>{{project.Id}}</td>
-			<td>{{project.Name}}</td>
-			<td>{{project.Lead.Username}}</td>
+		<tr ng-repeat="issues in myIssues">
+			<td class="text-center">{{issues.Id}}</td>
+			<td>{{issues.Title}}</td>
+			<td>{{issues.Project.Name}}</td>
+			<td>{{issues.DueDate}}</td>
 		</tr>
 	</tbody>
 </table>

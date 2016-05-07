@@ -5,13 +5,30 @@
             <tr>
                 <td>Username</td>
                 <td>Is Admin</td>
+                <td>User id</td>
             </tr>
         </thead>
-        <tbody ng-repeat="user in Users">
+        <tbody ng-repeat="user in Users | orderBy: 'Username'">
             <tr>
                 <td>{{user.Username}}</td>
                 <td>{{user.isAdmin}}</td>
                 <td>{{user.Id}}</td>
+                <td>
+                    <a href>
+                        <button ng-disabled="user.isAdmin" ng-click="makeUserAdmin(user.id, user.Username)" class="btn btn-primary button">
+                            Make admin
+                        </button>
+                    </a>
+                </td>
+                <!--
+                <td>
+                    <a href="#/changePassword/{{user.Id}}">
+                        <button ng-click="changePaassword(user.Id)" class="btn btn-primary button">
+                            Change Pass
+                        </button>
+                    </a>
+                </td>
+                -->
             </tr>
         </tbody>
     </table>

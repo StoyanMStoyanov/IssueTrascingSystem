@@ -13,29 +13,38 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <body>
 <div class=jumbotron>
-<h1>Dashboard</h1>
+<h1>Dashboard Admin</h1>
 	<a href="#/addNewProject"> <button class="btn btn-lg btn-success" >Add New Project</button></a>
 	<a href="#/addNewIssue"><button class="btn btn-lg btn-success">Add New Issue</button></a>
-	<button class="btn btn-lg btn-success" ng-click="projectServices.getAllProjects()">Get All Projects</button>
-	<button class="btn btn-lg btn-success" ng-click="projectServices.getProjectById()">Get Project by Id</button>
+	<a href="#/showAllProjects"><button class="btn btn-lg btn-success">Show All Projects</button></a>
+	<a href="#/getIssuesMe"><button class="btn btn-lg btn-success">Get my issues</button></a>
 
 	<table class="table table-striped" >
 		<thead>
 		<tr>
-			<td>Project number</td>
+			<td>Issue number</td>
+			<td>Issue title</td>
 			<td>Project name</td>
-			<td>Project description</td>
+			<td>Issue DueDate</td>
 		</tr>
 		</thead>
 		<tbody >
-		<tr ng-repeat="project in allProjects">
-			<td>{{project.Id}}</td>
-			<td>{{project.Name}}</td>
-			<td>{{project.Lead.Username}}</td>
+		<tr ng-repeat="issue in myIssues">
+			<td class="text-center">{{issue.Id}}</td>
+			<td>{{issue.Title}}</td>
+			<td>{{issue.Project.Name}}</td>
+			<td>{{issue.DueDate}}</td>
 			<td>
-				<a href="#/project/{{project.Id}}">
-					<button ng-click="projectServices.getAllProjects(project.Id)" class="btn btn-primary button">
+				<a href="#/issue/{{issue.Id}}">
+					<button ng-click="issueDetails(issue)" class="btn btn-primary button">
 						View
+					</button>
+				</a>
+			</td>
+			<td>
+				<a href="#/issues/{{issue.Id}}">
+					<button ng-click="editIssue(issue)" class="btn btn-primary button">
+						Edit
 					</button>
 				</a>
 			</td>

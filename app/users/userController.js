@@ -37,7 +37,7 @@ angular.module('issueTrackerSystem.users.userController', [
             controller: 'UserController'
         });
 
-        $routeProvider.when('/changePassword', {
+        $routeProvider.when('/changePassword/:Id', {
             templateUrl:'app/users/changePassword.html',
             controller: 'UserController',
             resolve: routeChecks.authenticated
@@ -56,17 +56,24 @@ angular.module('issueTrackerSystem.users.userController', [
         '$location',
         'authentication',
         function ($rootScope, $scope, $location, authentication) {
+            console.log('User controller loaded.');
 
-            var currentUser = {};
+            if(authentication.isAuthenticated()) {
+                $scope.username = JSON.parse(sessionStorage['userProfile']).Username;
+                $scope.isAuthenticated = !!(JSON.parse(sessionStorage['currentUser']));
+                $scope.isAdmin = JSON.parse(sessionStorage['userProfile']).isAdmin;
+            }
+
 
             //----------------------------------------
             $scope.login = function (user) {
                 authentication.loginUser(user)
                     .then(function (loggedUser) {
                         $rootScope.currentUser = loggedUser;
-                        //console.log($rootScope.currentUser);
+                        //console.log(isAdmin);
                         $location.path('/dashboardAdmin');
                     });
+
             };
             //-----------------------------------------
             $scope.register = function (user) {
@@ -95,6 +102,10 @@ angular.module('issueTrackerSystem.users.userController', [
             };
             //-----------------------------------------
             $scope.makeCurrentUserAdmin = function () {
+                authentication.makeAdmin();
+            };
+
+            $scope.makeUserAdmin = function () {
                 authentication.makeAdmin();
             };
 

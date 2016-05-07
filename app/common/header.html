@@ -1,27 +1,31 @@
 <div class="navbar navbar-default" ng-controller="UserController">
     <div class="container">
-        <div class="navbar-collapse collapse" ng-if="true" id="navbar-main">
+        <div class="navbar-collapse collapse" ng-if="isAuthenticated" id="navbar-main">
             <ul class="nav navbar-nav">
                 <li>
-                  <a href="#/dashboardAdmin">Home</a>
+                    <a href="#/edirUserProfile" ng-if="isAuthenticated">Home</a>
+                </li>
+
+                <li>
+                  <a href="#/dashboardAdmin" ng-if="isAdmin">Home</a>
                 </li>
                 <li>
                   <a href="#/getAllUsers" ng-click="getUsers()" >Get all users</a>
                 </li>
                 <li>
-                  <a href ng-click="makeCurrentUserAdmin()">Make Admin</a>
+                  <a href ng-click="makeCurrentUserAdmin()" ng-if="isAdmin">Make Admin</a>
                 </li>
               <li>
-                <a href="#/changePassword" ng-click="changePassword()">Change password</a>
+                <a href="#//changePassword" ng-click="changePassword()">Change password</a>
               </li>
               <li>
                 <a href="#/logout" ng-click="logout()">Logout</a>
               </li>
             </ul>
-            <span class="rigth nav navbar-nav">
-              <span>
-                User: {{username}} &nbsp;&nbsp;isAdmin: {{isAdmin}}
-              </span>
+            <span class=" nav navbar-nav">
+                <div class="rigth">
+                    User: {{username}} &nbsp;&nbsp;isAdmin: {{isAdmin}}
+                </div>
             </span>
         </div>
       <h1 class="main-header text-center">Welcome to Issue Tracker System!</h1>

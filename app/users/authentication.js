@@ -27,13 +27,13 @@ angular.module('issueTrackerSystem.users.authentication', [])
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 };
-                $http(request).then(function (responce) {
-
+                $http(request)
+                    .then(function (responce) {
                     preserveUserData(responce.data);
-
                     requestUserProfile()
                         .then(function () {
                             toastr.info('Success', 'Login successful.');
+                            location.reload();
                             deferred.resolve(responce.data);
                         });
                 });
@@ -62,9 +62,11 @@ angular.module('issueTrackerSystem.users.authentication', [])
 
             function logout() {
                 delete sessionStorage['currentUser'];
+                delete sessionStorage['userProfile'];
                 $http.defaults.headers.common.Authorization = undefined;
                 toastr.info('Logout!', 'User successfully logout.');
                 removeUserProfile();
+                location.reload();
             }
 
             function isAuthenticated(){
@@ -72,8 +74,6 @@ angular.module('issueTrackerSystem.users.authentication', [])
             }
 
             function isAnonymous(){
-                //console.log(sessionStorage['currentUser'] == undefined);
-                //debugger;
                 return (sessionStorage['currentUser'] == undefined);
             }
 
@@ -131,6 +131,7 @@ angular.module('issueTrackerSystem.users.authentication', [])
                     currentUser = responce.data;
                     userProfileDeffered.resolve();
                     userProfile = currentUser;
+                    sessionStorage['userProfile'] = JSON.stringify(currentUser);
                     //console.log(userProfile.isAdmin);
 
                 });
@@ -142,12 +143,7 @@ angular.module('issueTrackerSystem.users.authentication', [])
             }
 
             function isAdmin(){
-                //console.log(userProfile.isAdmin);
-                if(userProfile != 'undefined' && userProfile.isAdmin){
-                    console.log('isAdmin - true');
-                    return true;
-                }
-                return false;
+               return JSON.parse(sessionStorage['userProfile']).isAdmin;
             }
 
             function changePassword(userData){
@@ -198,7 +194,7 @@ angular.module('issueTrackerSystem.users.authentication', [])
             }
 
             function getUserProfile(){
-                return userProfile;
+                return JSON.parse(sessionStorage['userProfile']);
             }
 
             return {

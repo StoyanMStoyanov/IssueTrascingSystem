@@ -11,20 +11,19 @@ angular.module('issueTrackerSystem.home.HomeController', [
         '$scope',
         '$location',
         'authentication',
-        'projectServices',
-        function ($rootScope, $scope, $location, authentication, projectServices) {
-            //$scope.projectServices = projectServices;
-            var authenticated = authentication.isAuthenticated();
-            if(authenticated){
+        function ($rootScope, $scope, $location, authentication) {
+            console.log('Home controller loaded.');
+
+            if(authentication.isAuthenticated()){
                 authentication.getCurrentUser()
                     .then(function (user) {
                         console.log(user);
                         $scope.currentUser = user;
                         $rootScope.isAuthenticated = true;
-                        $location.path('/dashboardAdmin')
+                        $location.path('/dashboard');
+                        location.reload();
                     });
             }
-
 
         }
     ]);

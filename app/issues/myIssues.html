@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<body ng-controller="IssueController">
+<div class="col-md-8">
+    <h2>My issues description.</h2>
+    <table class="table table-striped" >
+        <thead>
+        <tr>
+            <td>Issue number</td>
+            <td>Issue title</td>
+            <td>Project name</td>
+            <td>DueDate</td>
+        </tr>
+        </thead>
+        <tbody >
+        <tr >
+            <td class="text-center">{{myIssues.Id}}</td>
+            <td>{{myIssues.Title}}</td>
+            <td>{{myIssues.Project.Name}}</td>
+            <td>{{myIssues.DueDate}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div >
+
+        <label>Issue description: {{myIssues.Description}}</label>
+        <br/>
+        <label>Issue DueDate: {{myIssues.DueDate}}</label>
+        <br/>
+        <label>Issue assigned by: {{myIssues.Assignee.Username}}</label>
+        <br/>
+        <label>Issue author: {{myIssues.Author.Username}}</label>
+        <br/>
+        <label>Issue key: {{myIssues.IssueKey}}</label>
+        <br/>
+        <label>Issue status: {{myIssues.Status.Name}}</label>
+        <br/>
+        <label>Issue priority: {{myIssues.Priority.Name}}</label>
+        <br/>
+        <label>Issue Labels: {{myIssues.Labels}}</label>
+    </div>
+</div>
+</body>
+</html>

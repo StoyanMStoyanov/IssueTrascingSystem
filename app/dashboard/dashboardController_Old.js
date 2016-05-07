@@ -31,7 +31,10 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
             resolve: routeChecks.adminRole
         });
 
-
+        $routeProvider.when('/dashboardViewIssueDetail/:Id', {
+            templateUrl: 'app/issues/issueDetails.html',
+            controller: 'DashboardController'
+        })
     }])
     .controller('DashboardController',[
         '$rootScope',
@@ -42,7 +45,6 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
         'toastr',
         function ($rootScope, $scope, $location, authentication, issueServices, toastr) {
             console.log('Dashboard controller loaded.');
-            $scope.issueServices = issueServices;
 
             if(authentication.isAuthenticated() && authentication.isAdmin()){
                 $scope.isAuthenticated = true;
@@ -60,20 +62,14 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
                 issueServices.getIssuesMe()
                     .then(function(myIssues){
                         $scope.myIssues = myIssues.data.Issues;
-                        //console.log(myIssues.data);
-                        //toastr.info('Load my issues is successful');
+                        console.log(myIssues.data);
+                        toastr.info('Load my issues is successful');
                     });
             //}
 
             $scope.issueDetails = function (issueDetail) {
-                issueServices.getIssueById(issueDetail);
                 $scope.issue = issueDetail;
                 console.log($scope.issue);
-            };
-
-            $scope.projectDetails = function (projectDetail) {
-                $scope.project = projectDetail;
-                console.log($scope.project);
             };
 
             $scope.editIssue = function (issueId) {

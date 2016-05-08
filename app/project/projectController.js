@@ -35,13 +35,18 @@ angular.module('issueTrackerSystem.project.ProjectController', [
 
         $routeProvider.when('/project/:Id', {
             templateUrl: 'app/project/projectDetails.html',
-            controller: 'ProjectController'
-            //resolve: routeChecks.adminRole
+            controller: 'ProjectController',
+            resolve: routeChecks.adminRole
         });
         $routeProvider.when('/showAllProjects/', {
             templateUrl: 'app/project/showAllProjects.html',
             controller: 'ProjectController',
             resolve: routeChecks.authenticated
+        });
+        $routeProvider.when('/editProject/:Id', {
+            templateUrl: 'app/project/editProject.html',
+            controller: 'ProjectController'
+            //resolve: routeChecks.adminRole
         });
 
     }])
@@ -53,14 +58,14 @@ angular.module('issueTrackerSystem.project.ProjectController', [
         'projectServices',
         'toastr',
         function ($rootScope, $scope, $location, authentication, projectServices, toastr) {
-            console.log('Project controller loaded.');
+            //console.log('Project controller loaded.');
             if(authentication.isAuthenticated()){
                 $scope.isAuthenicated = true;
                     projectServices.getAllProjects()
                         .then(function (projects) {
                             $scope.allProjects = projects;
                         });
-                }
+            }
 
 
             //---------------------------------------------------------------------
@@ -69,12 +74,15 @@ angular.module('issueTrackerSystem.project.ProjectController', [
                 .then(function (registeredProject) {
                     //console.log(registeredProject);
                     toastr.info('Project was successfully added.');
-                    //$location.path('');
+                    $location.path('/dashboardAdmin');
                 })
             };
             //---------------------------------------------------------------------
             $scope.editExistingProject = function (projectId) {
-                projectServices.editProjectById(projectId);
+                $rootScope.project = projectId;
+                console.log($rootScope.project);
+
+                //projectServices.editProjectById(projectId);
                 //    .then(function (editedProject) {
                 //        console.log(editedProject);
                         //TODO: Show newly registered project
@@ -88,7 +96,7 @@ angular.module('issueTrackerSystem.project.ProjectController', [
                 projectServices.getAllProjects(projectId)
                     .then(function (reqProject) {
                         //$scope.project = reqProject;
-                        console.log($scope.project.Name);
+                        //console.log($scope.project.Name);
                     })
             };
             //---------------------------------------------------------------------
@@ -98,9 +106,13 @@ angular.module('issueTrackerSystem.project.ProjectController', [
                 console.log(projectId);
             };
 
-            //$scope.redirect = function (projectId) {
-            //    console.log('function redirect');
-            //    $location.path('/project/' + projectId);
-            //}
+            $scope.getProjectIssues = function (issueId) {
+                projectServices.getProjectIssues(issueId)
+                    .then(function (allProjectIssues) {
+                        $scope.myIssues = allProjectIssues;
+                        console.log(allProjectIssues.data);
+                    });
+            };
+
 
     }]);

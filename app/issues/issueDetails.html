@@ -1,40 +1,59 @@
-<div class="col-md-6">
-    <h2>Issue details:</h2>
 
-    <table class="table table-striped" >
-        <thead>
-        <tr>
-            <td>Issue number</td>
-            <td>Issue title</td>
-            <td>Project name</td>
-            <td>DueDate</td>
-        </tr>
-        </thead>
-        <tbody >
-        <tr>
-            <td class="text-center">{{issue.Id}}</td>
-            <td>{{issue.Title}}</td>
-            <td>{{issue.Project.Name}}</td>
-            <td>{{issue.DueDate}}</td>
-        </tr>
-        </tbody>
-    </table>
-    <div >
 
-        <label>Issue description: {{issue.Description}}</label>
-        <br/>
-        <label>Issue DueDate: {{issue.DueDate}}</label>
-        <br/>
-        <label>Issue assigned by: {{issue.Assignee.Username}}</label>
-        <br/>
-        <label>Issue author: {{issue.Author.Username}}</label>
-        <br/>
-        <label>Issue key: {{issue.IssueKey}}</label>
-        <br/>
-        <label>Issue status: {{issue.Status.Name}}</label>
-        <br/>
-        <label>Issue priority: {{issue.Priority.Name}}</label>
-        <br/>
-        <label>Issue Labels: {{issue.Labels}}</label>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Issue details</title>
+</head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<body>
+<div class=jumbotron>
+        <h2>Issue details:</h2>
+        <table class="table table-striped" >
+            <thead>
+            <tr>
+                <td>Issue number</td>
+                <td>Issue title</td>
+                <td>Project name</td>
+                <td>DueDate</td>
+            </tr>
+            </thead>
+            <tbody >
+            <tr>
+                <td class="text-center">{{issue.Id}}</td>
+                <td>{{issue.Title}}</td>
+                <td>{{issue.Project.Name}}</td>
+                <td>{{issue.DueDate}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div >
+            <label>Issue description: {{issue.Description}}</label>
+            <br/>
+            <label>Issue DueDate: {{issue.DueDate}}</label>
+            <br/>
+            <label>Issue assigned by: {{issue.Assignee.Username}}</label>
+            <br/>
+            <label>Issue author: {{issue.Author.Username}}</label>
+            <br/>
+            <label>Issue key: {{issue.IssueKey}}</label>
+            <br/>
+            <label>Issue status: {{issue.Status.Name}}</label>
+            <br/>
+            <label>Issue priority: {{issue.Priority.Name}}</label>
+            <br/>
+            <label>Issue Labels: {{issue.Labels}}</label>
+        </div>
+    <a href="#/dashboardAdmin"><button class="btn btn-lg btn-primary">Cancel</button></a>
 </div>
+</body>
+</html>

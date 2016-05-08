@@ -1,5 +1,5 @@
 <label for="projectId">Project</label>
 <select ng-model="issue.projectId" id="projectId" data-ng-controller="ProjectController" data-ng-init="getAllProjects()">
     <option value="">---Please slect---</option>
-    <option  ng-repeat="project in allProjects | orderBy: 'Id'" value="{{project.Id}}">{{project.Id}} --- {{project.Name}} --- {{project.Lead.Username}}</option>
+    <option  ng-repeat="project in allProjects | orderBy: 'Id'" required="required" value="{{project.Id}}">{{project.Id}} --- {{project.Name}} --- {{project.Lead.Username}}</option>
 </select>

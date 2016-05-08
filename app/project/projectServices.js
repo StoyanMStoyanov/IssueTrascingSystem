@@ -31,7 +31,7 @@ angular.module('issueTrackerSystem.project.projectServices', [])
             return differed.promise;
         }
 
-            function getProjectById(project){
+        function getProjectById(project){
                 $rootScope.projectById = project;
                 //console.log('Project by id ' + $rootScope.projectById);
             }
@@ -89,6 +89,26 @@ angular.module('issueTrackerSystem.project.projectServices', [])
 
         function editProjectById(projectId){
             //TODO: Write logic for add new project
+            console.log(projectId);
+        }
+
+        function getProjectIssues(projectId){
+            projectId = projectId || 1;
+            var differed = $q.defer();
+            //debugger;
+            var request = {
+                method: 'GET',
+                url: BASE_URL + 'Projects/' + projectId + '/Issues',
+                headers: {
+                    Authorization: 'Bearer ' + JSON.parse(sessionStorage['currentUser']).access_token
+                }};
+            $http(request)
+                .then(function (responce) {
+                    //$rootScope.project = responce.data;
+                    differed.resolve(responce.data);
+                    //console.log(responce.data);
+                });
+            return differed.promise;
         }
 
         function parseProjectKey(inputString){
@@ -126,7 +146,8 @@ angular.module('issueTrackerSystem.project.projectServices', [])
             getAllProjects:     getAllProjects,
             getProjectById:     getProjectById,
             addProject:         addProject,
-            editProjectById:    editProjectById
+            editProjectById:    editProjectById,
+            getProjectIssues: getProjectIssues
         }
     }
 ]);

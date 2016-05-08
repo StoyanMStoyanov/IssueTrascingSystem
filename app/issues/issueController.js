@@ -12,20 +12,31 @@ angular.module('issueTrackerSystem.issues.issueController', [
                     return $q.when(true);
                 }
                 return $q.reject('Unauthorized Access.')
+            }],
+            adminRole: [function ($q, authentication) {
+                if(authentication.isAdmin){
+                    return $q.when(true);
+                }
+                return $q.reject('You not admin.');
             }]
         };
-        $routeProvider.when('/editIssue', {
-            templateUrl: 'app/issues/editIssue.html',
-            controller: 'IssueController'
-        });
+
         $routeProvider.when('/addNewIssue', {
             templateUrl: 'app/issues/addNewIssue.html',
-            controller: 'IssueController'
+            controller: 'IssueController',
+            resolve: routeChecks.adminRole
         });
 
-        $routeProvider.when('/issue/:Id', {
+        $routeProvider.when('/viewIssue/:Id', {
             templateUrl: 'app/issues/issueDetails.html',
-            controller: 'IssueController'
+            controller: 'IssueController',
+            resolve: routeChecks.adminRole
+        });
+
+        $routeProvider.when('/editIssue/:Id', {
+            templateUrl: 'app/issues/editIssue.html',
+            controller: 'IssueController',
+            resolve: routeChecks.adminRole
         });
 
     }])
@@ -37,7 +48,7 @@ angular.module('issueTrackerSystem.issues.issueController', [
         'issueServices',
         'toastr',
         function ($rootScope, $scope, $location, authentication, issueServices, toastr) {
-            console.log('Issue controller loaded.');
+            //console.log('Issue controller loaded.');
 
             issueServices.getIssuesMe()
                 .then(function (issues) {
@@ -63,14 +74,17 @@ angular.module('issueTrackerSystem.issues.issueController', [
                 issueServices.addNewIssue(newIssue)
                     .then(function (requestedIssue) {
                         $scope.issue = requestedIssue.data;
-                        console.log(requestedIssue.data);
+                        //console.log(requestedIssue.data);
                         toastr.info('New issue request status is: ' + requestedIssue.statusText);
-                        $location.path('/newIssueDetails');
+                        $location.path('/dashboardAdmin');
                     });
             };
 
-            $scope.editIssue = function (issue) {
-                //TODO: Call function from issueServices
+
+            $scope.issueDetails = function (issueDetail) {
+                issueServices.getIssueById(issueDetail);
+                $scope.issue = issueDetail;
+                //console.log($scope.issue);
             };
 
         }

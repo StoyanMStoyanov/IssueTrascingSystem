@@ -26,6 +26,7 @@ angular.module('issueTrackerSystem', [
         //тук правим проверка в sessionStorage  и ако имаме token директно се логваме
         function ($rootScope, $location, authentication) {
             if(authentication.isAuthenticated()){
+                $rootScope.isAuthenticated = true;
                 authentication.requestUserProfile();
                 $location.path('/dashboard');
             }
@@ -38,13 +39,11 @@ angular.module('issueTrackerSystem', [
                 }
 
                 if(rejection == 'You is not admin.'){
-                    $location.path('/dashboardAdmin');
+                    $location.path('/dashboard');
                     toastr.info(rejection);
                 }
 
-
             });
-
 
        /* $rootScope.$on('$locationChangeStart', function (event, current, previous, reject) {
             if($location.path().indexOf('/user/') != -1 && !authService.isLoggedIn()){

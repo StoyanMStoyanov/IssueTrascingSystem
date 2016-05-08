@@ -18,37 +18,40 @@
 <body>
 <div class=jumbotron style="height:1000px; padding-left: 10px;">
 <h2 style="margin-top: 0"> Edit Project</h2>
+
+
 <div>
-  <form style="width:48%" class="pull-left">
-  <div class="form-group">
-      <label for="exampleInputEmail1">Name</label>
-      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Project Name" value="SIT">
+    <form style="width:48%" class="pull-left">
+      <div class="form-group">
+        <label for="editProjectName">Name</label>
+        <input type="text" class="form-control" id="editProjectName" ng-model="project.Name" ng-value="project.Name"/>
     </div>
-    <div class="form-group">
-      <label for="exampleInputEmail1">Leader</label>
-      <select class="form-control">
-      	<option>Pesho</option>
-      	<option>Gosho</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="exampleInputEmail1">Project Key</label>
-      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Project Key" value="123qwe">
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Priorities (comma separated)</label>
-      <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Available Priorities For The Issues" value="Low, Medium, Urgent">
-    </div>
-     <div class="form-group">
-      <label for="exampleInputPassword1">Labels (comma separated)</label>
-      <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Labels" value="Softuni, software">
-      <br>
-    </div>
-     <div class="form-group">
-      <label for="exampleInputPassword1">Description</label>
-      <textarea class="form-control" placeholder="Description">Project for managing issues for specific projects with priorities, status transitions and labels</textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Edit Project</button>
+<!--      <div class="form-group">
+        <label for="exampleInputEmail1">Leader</label>
+        <select class="form-control">
+      	  <option>Pesho</option>
+      	  <option>Gosho</option>
+        </select>
+    </div>  -->
+      <div class="form-group" ng-include="'app/project/selectProjectUser.html'">
+      </div>
+      <div class="form-group">
+        <label for="editProjectKey">Project Key</label>
+        <input type="text" class="form-control" id="editProjectKey" ng-model="project.Key" value="{{project.Key}}">
+      </div>
+      <div class="form-group">
+        <label for="editProjectPriorities">Priorities (comma separated)</label>
+        <input type="text" class="form-control" ng-model="project.Priorities" id="editProjectPriorities" value="{{JSON.stringify(project.Key)}}" >
+      </div>
+      <div class="form-group">
+        <label for="editProjectLabels">Labels (comma separated)</label>
+        <input type="text" class="form-control" ng-model="project.Labels" id="editProjectLabels" placeholder="Labels: Softuni, software">
+      </div>
+      <div class="form-group">
+        <label for="editProjectDescription">Description</label>
+        <textarea class="form-control" ng-model="project.Description" id="editProjectDescription" placeholder="Description" value="{{project.Description}}"></textarea>
+      </div>
+      <button type="submit" class="btn btn-success" ng-click="editExistingProject(project)">Edit Project</button>
   </form>
   <form style="width:48%" class="pull-right">
   <h3>Status transition scheme</h3>

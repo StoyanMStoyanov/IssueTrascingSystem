@@ -1,5 +1,5 @@
 <label for="projectLeader">Leader</label>
 <select ng-model="issue.AssigneeId" id="projectLeader" data-ng-controller="UserController" data-ng-init="getAllUsers()">
     <option value="">---Please slect---</option>
-    <option  ng-repeat="user in allUsers | orderBy: 'Username'" value="{{user.Id}}">{{user.Username}}</option>
+    <option  ng-repeat="user in allUsers | orderBy: 'Username'" required="required" value="{{user.Id}}">{{user.Username}}</option>
 </select>

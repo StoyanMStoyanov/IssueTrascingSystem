@@ -19,9 +19,9 @@ angular.module('issueTrackerSystem.issues.issueServices', [])
             var dataForParse = parsedIssueData.Labels.replace(/\s+/g, '') || '';
             delete parsedIssueData['Labels'];
             parseArray('labels', '.Name', dataForParse.split(','), parsedIssueData);
-            //dataForParse = parsedIssueData.DueDate;
-            //parsedIssueData.DueDate = '';
-            //parsedIssueData.DueDate = parseDate(dataForParse);
+            dataForParse = parsedIssueData.DueDate;
+            parsedIssueData.DueDate = '';
+            parsedIssueData.DueDate = parseDate(dataForParse);
             var issueData = convertToString(parsedIssueData);
             //console.log(parsedIssueData);
             var request = {
@@ -33,7 +33,7 @@ angular.module('issueTrackerSystem.issues.issueServices', [])
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             };
-            console.log(request);
+            //console.log(request);
             $http(request)
                 .then(function (requestedIssue) {
                     //console.log(requestedIssue);
@@ -99,18 +99,32 @@ angular.module('issueTrackerSystem.issues.issueServices', [])
         }
 
             function parseDate(inputDate){
-            var outputDate = '';
-            var date = new Date(inputDate);
-            outputDate = date.getFullYear() + '\/' + (date.getMonth()+1) + '\/' + date.getDate();
-            console.log(outputDate);
-            return outputDate;
+                var outputDate = '';
+                var date = new Date(inputDate);
+                var date = new Date(inputDate);
+                var year = date.getFullYear();
+                var month = date.getMonth()+1;
+                if(month < 10) month = '0' + month;
+                var day = date.getMonth();
+                if(day < 10) day = '0' + day;
+                outputDate = year + '\/' + month + '\/' + day;
+                //console.log(outputDate);
+                return outputDate;
         }
+
+            function editIssue(issue){
+                var date = new Date(issue.DueDate);
+                //console.log(date);
+                issue.DueDate = date;
+                $rootScope.editIssue = issue;
+            }
 
             return {
                 addNewIssue: addNewIssue,
                 editIssueById: editIssueById,
                 getIssuesMe: getIssuesMe,
-                getIssueById: getIssueById
+                getIssueById: getIssueById,
+                editIssue: editIssue
             }
     }
 ]);

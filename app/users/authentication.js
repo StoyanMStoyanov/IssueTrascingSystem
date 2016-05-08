@@ -177,7 +177,8 @@ angular.module('issueTrackerSystem.users.authentication', [])
             }
 
             function makeAdmin (userId){
-                userId = userId || 'cbe9c46d-9150-42d9-a641-3c504b3043e9';
+
+                //userId = userId || 'cbe9c46d-9150-42d9-a641-3c504b3043e9';
                 var request = {
                     method: 'PUT',
                     url: BASE_URL + 'users/makeadmin',
@@ -189,7 +190,9 @@ angular.module('issueTrackerSystem.users.authentication', [])
                 };
                 console.log(request);
                 $http(request).then(function () {
-                    toastr.info('User:' + currentUser.userName  + ' is admin.')
+                    toastr.info('User:' + currentUser.userName  + 'changed to admin.')
+                }, function (error) {
+                    toastr.error('Current user is admin.')
                 });
             }
 

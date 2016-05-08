@@ -12,8 +12,8 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <body ng-controller="IssueController">
-<div class="col-md-12">
-    <h2>All projects description.</h2>
+<div class="jumbotron">
+    <h2>All projects.</h2>
     <table class="table table-striped" >
         <thead>
         <tr>
@@ -34,9 +34,18 @@
                     </button>
                 </a>
             </td>
+            <td>
+                <a href="#/editProject/{{project.Id}}">
+                    <button ng-click="editExistingProject(project)" class="btn btn-primary button">
+                        Edit
+                    </button>
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>
+    <a href="#/dashboardAdmin"><button class="btn btn-primary">Cancel</button></a>
 </div>
+
 </body>
 </html>

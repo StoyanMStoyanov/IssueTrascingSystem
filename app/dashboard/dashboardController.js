@@ -38,10 +38,11 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
         '$scope',
         '$location',
         'authentication',
+        'projectServices',
         'issueServices',
         'toastr',
-        function ($rootScope, $scope, $location, authentication, issueServices, toastr) {
-            console.log('Dashboard controller loaded.');
+        function ($rootScope, $scope, $location, authentication, projectServices, issueServices, toastr) {
+            //console.log('Dashboard controller loaded.');
             $scope.issueServices = issueServices;
 
             if(authentication.isAuthenticated() && authentication.isAdmin()){
@@ -68,12 +69,12 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
             $scope.issueDetails = function (issueDetail) {
                 issueServices.getIssueById(issueDetail);
                 $scope.issue = issueDetail;
-                console.log($scope.issue);
+                //console.log($scope.issue);
             };
 
             $scope.projectDetails = function (projectDetail) {
                 $scope.project = projectDetail;
-                console.log($scope.project);
+                //console.log($scope.project);
             };
 
             $scope.editIssue = function (issueId) {
@@ -86,7 +87,12 @@ angular.module('issueTrackerSystem.dashboard.DashboardController', [])
                 //    })
             };
 
-
+            $scope.getProjectIssues = function (issueId) {
+                projectServices.getProjectIssues(issueId)
+                    .then(function (allProjectIssues) {
+                        //console.log(allProjectIssues);
+                    });
+            };
 
             //---------------------------------------------------------------------
 

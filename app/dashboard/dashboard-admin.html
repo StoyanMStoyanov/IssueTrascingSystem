@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Dashboard</title>
+	<title>Dashboard Admin</title>
 </head>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -14,10 +14,6 @@
 <body>
 <div class=jumbotron>
 <h1>Dashboard Admin</h1>
-	<a href="#/addNewProject"> <button class="btn btn-lg btn-success" >Add New Project</button></a>
-	<a href="#/addNewIssue"><button class="btn btn-lg btn-success">Add New Issue</button></a>
-	<a href="#/showAllProjects"><button class="btn btn-lg btn-success">Show All Projects</button></a>
-	<a href="#/getIssuesMe"><button class="btn btn-lg btn-success">Get my issues</button></a>
 
 	<table class="table table-striped" >
 		<thead>
@@ -35,15 +31,15 @@
 			<td>{{issue.Project.Name}}</td>
 			<td>{{issue.DueDate}}</td>
 			<td>
-				<a href="#/issue/{{issue.Id}}">
+				<a href="#/viewIssue/{{issue.Id}}">
 					<button ng-click="issueDetails(issue)" class="btn btn-primary button">
 						View
 					</button>
 				</a>
 			</td>
 			<td>
-				<a href="#/issues/{{issue.Id}}">
-					<button ng-click="editIssue(issue)" class="btn btn-primary button">
+				<a href="#/editIssue/{{issue.Id}}">
+					<button ng-click="issueServices.editIssue(issue)" class="btn btn-primary button">
 						Edit
 					</button>
 				</a>
@@ -51,7 +47,11 @@
 		</tr>
 		</tbody>
 	</table>
-
+	<div>
+		<a href="#/addNewProject"> <button class="btn btn-lg btn-primary" >Add New Project</button></a>
+		<a href="#/addNewIssue"><button class="btn btn-lg btn-primary">Add New Issue</button></a>
+		<a href="#/showAllProjects"><button class="btn btn-lg btn-primary">Show All Projects</button></a>
+	</div>
 
 </div>
 </body>

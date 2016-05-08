@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project detail</title>
+</head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<body>
+<div class=jumbotron>
+    <div>
+        <h2>Project details:</h2>
+        <table class="table table-striped" >
+            <thead>
+            <tr>
+                <td>Project number</td>
+                <td>Project name</td>
+                <td>Project Leader</td>
+            </tr>
+            </thead>
+            <tbody >
+            <tr >
+                <td class="text-center">{{projectById.Id}}</td>
+                <td>{{projectById.Name}}</td>
+                <td>{{projectById.Lead.Username}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div >
+            <label>Project transition scheme: {{projectById.TransitionSchemeId}}</label>
+            <br/>
+            <label>Project key: {{projectById.ProjectKey}}</label>
+            <br/>
+            <label>Project priorities: {{projectById.Priorities}}</label>
+            <br/>
+            <label>Project labels: {{projectById.Labels}}</label>
+            <br/>
+            <label>Project description: </label>
+            <br/>
+            <textarea class="col-md-10">{{projectById.Description}}</textarea>
+            <br/>
+        </div>
+    </div>
+    <br/>
+    <div>
+        <table class="table table-striped" data-ng-init="getProjectIssues(projectById.Id)">
+
+            <thead>
+            <tr><h3>Issues by project: {{projectById.Name}}</h3></tr>
+            <tr>
+                <td>Issue number</td>
+                <td>Issue title</td>
+                <td>Issue DueDate</td>
+            </tr>
+            </thead>
+            <tbody >
+            <tr ng-repeat="issue in myIssues">
+                <td class="text-center">{{issue.Id}}</td>
+                <td>{{issue.Title}}</td>
+
+                <td>{{issue.DueDate}}</td>
+                <!--
+                <td>
+                    <a href="#/issue/{{issue.Id}}">
+                        <button ng-click="issueDetails(issue)" class="btn btn-primary button">
+                            View
+                        </button>
+                    </a>
+                </td>
+                <td>
+                    <a href="#/issues/{{issue.Id}}">
+                        <button ng-click="editIssue(issue)" class="btn btn-primary button">
+                            Edit
+                        </button>
+                    </a>
+                </td>
+                -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="#/dashboardAdmin"><button class="btn btn-success">Cancel</button></a>
+</div>
+</body>
+</html>

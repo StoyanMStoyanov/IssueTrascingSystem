@@ -2,21 +2,23 @@
     <div class="container">
         <div class="navbar-collapse collapse" ng-if="isAuthenticated" id="navbar-main">
             <ul class="nav navbar-nav">
-                <li>
-                    <a href="#/edirUserProfile" ng-if="isAuthenticated">Home</a>
-                </li>
 
                 <li>
-                  <a href="#/dashboardAdmin" ng-if="isAdmin">Home</a>
+                  <a href="#/dashboardAdmin" ng-if="isAdmin">Home page</a>
                 </li>
                 <li>
-                  <a href="#/getAllUsers" ng-click="getUsers()" >Get all users</a>
+                    <a href="#/editUserProfile" ng-if="isAuthenticated">Edit profile</a>
                 </li>
+                <li>
+                  <a href="#/getAllUsers" ng-click="getUsers()" ng-if="isAdmin">Get all users</a>
+                </li>
+                <!--
                 <li>
                   <a href ng-click="makeCurrentUserAdmin()" ng-if="isAdmin">Make Admin</a>
                 </li>
+                -->
               <li>
-                <a href="#//changePassword" ng-click="changePassword()">Change password</a>
+                <a href="#/changePassword" ng-click="changePassword()">Change password</a>
               </li>
               <li>
                 <a href="#/logout" ng-click="logout()">Logout</a>

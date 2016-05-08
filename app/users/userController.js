@@ -11,9 +11,6 @@ angular.module('issueTrackerSystem.users.userController', [
                     return $q.when(true);
                 }
                 return $q.reject('Unauthorized Access.')
-            }],
-            adminRole: [function () {
-
             }]
         };
 
@@ -37,14 +34,21 @@ angular.module('issueTrackerSystem.users.userController', [
             controller: 'UserController'
         });
 
-        $routeProvider.when('/changePassword/:Id', {
+        $routeProvider.when('/changePassword', {
             templateUrl:'app/users/changePassword.html',
             controller: 'UserController',
             resolve: routeChecks.authenticated
         });
         $routeProvider.when('/getAllUsers', {
             templateUrl:'app/users/allUsers.html',
-            controller: 'UserController'
+            controller: 'UserController',
+            resolve: routeChecks.authenticated
+        });
+
+        $routeProvider.when('/editUserProfile', {
+            templateUrl:'app/users/editUserProfile.html',
+            controller: 'UserController',
+            resolve: routeChecks.authenticated
         });
 
 
@@ -56,14 +60,13 @@ angular.module('issueTrackerSystem.users.userController', [
         '$location',
         'authentication',
         function ($rootScope, $scope, $location, authentication) {
-            console.log('User controller loaded.');
+            //console.log('User controller loaded.');
 
             if(authentication.isAuthenticated()) {
-                $scope.username = JSON.parse(sessionStorage['userProfile']).Username;
-                $scope.isAuthenticated = !!(JSON.parse(sessionStorage['currentUser']));
-                $scope.isAdmin = JSON.parse(sessionStorage['userProfile']).isAdmin;
+                $scope.username = authentication.getUserProfile().Username;
+                $scope.isAuthenticated = authentication.isAuthenticated();
+                $scope.isAdmin = authentication.isAdmin();
             }
-
 
             //----------------------------------------
             $scope.login = function (user) {

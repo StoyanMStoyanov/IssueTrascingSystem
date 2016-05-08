@@ -4,10 +4,10 @@
             <input type="email" id="reg-email" required="required" ng-model="registerUser.email" class="form-control">
             <br/>
             <label for="reg-password">Password</label>
-            <input type="password" id="reg-password" required="required" minlength="4" maxlength="20" ng-model="registerUser.password" class="form-control">
+            <input type="password" id="reg-password" required="required" minlength="6" maxlength="20" ng-model="registerUser.password" class="form-control">
             <br/>
             <label for="reg-confirm-password">Confirm password</label>
-            <input type="password" id="reg-confirm-password" required="required" minlength="4" maxlength="20" ng-model="registerUser.confirmPassword" class="form-control">
+            <input type="password" id="reg-confirm-password" required="required" minlength="6" maxlength="20" ng-model="registerUser.confirmPassword" class="form-control">
             <br/>
 
             <button class="btn btn-primary" ng-disabled="registerUserForm.$invalid || registerUser.password != registerUser.confirmPassword" ng-click="register(registerUser)">Register</button>
